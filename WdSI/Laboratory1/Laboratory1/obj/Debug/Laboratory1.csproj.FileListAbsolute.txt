@@ -1,0 +1,5 @@
+\\beta\mawrzesien\pulpit\WdSI\Laboratory1\Laboratory1\obj\Debug\Laboratory1.csprojResolveAssemblyReference.cache
+\\beta\mawrzesien\pulpit\WdSI\Laboratory1\Laboratory1\bin\Debug\Laboratory1.exe
+\\beta\mawrzesien\pulpit\WdSI\Laboratory1\Laboratory1\bin\Debug\Laboratory1.pdb
+\\beta\mawrzesien\pulpit\WdSI\Laboratory1\Laboratory1\obj\Debug\Laboratory1.exe
+\\beta\mawrzesien\pulpit\WdSI\Laboratory1\Laboratory1\obj\Debug\Laboratory1.pdb
