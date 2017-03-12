@@ -28,6 +28,7 @@ namespace Laboratory1
         {
             get { return this.id; }
         }
+        
 
         public override double ComputeHeuristicGrade() //wzór na obliczanie heurystyki
         {
@@ -39,21 +40,14 @@ namespace Laboratory1
             ///obecnych w wierszu i, kolumnie j i podkwadracie, do którego nalezy(i, j).
             ///Mówimy, ze stan jest tym blizszy rozwiazaniu, im ma mniej pozostałych
             ///mozliwosci dla pewnej komórki. Dzieci podpinamy w tej własnie komórce.
+            ///
+            /// x przekazywana z buildchild definiowana w kontruktorze Statesdoku; domyślnie null.
+            /// y przekazywana z buildchild definiowana w kontruktorze Statesdoku; domyślnie null.
             /// </summary>
 
             if (this.x == null || this.y == null) return 99999;
 
-
-            int Counter0 = 0;
-            int Counter0x = 0;
-            int Counter0y = 0;
-
-            for (int i = 0; i < GRID_SIZE; i++)
-            {
-                if (this.Table[(int)this.x, i] == 0) Counter0x++;
-                if (this.Table[i, (int)this.y] == 0) Counter0y++;
-            }
-
+            #region wyznaczanie granic small_grid w którym znajduje się komórka w tabeli
             int x_start = 0; int y_start = 0;
             int x_stop = 0; int y_stop = 0;
 
@@ -100,8 +94,96 @@ namespace Laboratory1
                     }
                 }
             }
+            #endregion //wyznaczanie granic small_grid w którym znajduje się komórka w tabeli
 
+            #region repeat?
 
+            List<int> repeat_list = new List<int>(); //lista liczb już umieszczoncyh
+
+            #region przeszukiwanie powrórzeń w wierszu
+            for (int i = 0; i < GRID_SIZE; i++)
+            {
+                if (this.Table[i, (int)this.y] != 0)
+                {
+                    foreach (int tmp_l in repeat_list)
+                    {
+
+                        if (this.Table[i, (int)this.y] == tmp_l)
+                        {
+                            return 99999;
+                        }
+                        else
+                        {
+                            repeat_list.Add(this.Table[i, (int)this.y]);
+                        }
+
+                    }
+                }
+            }
+            repeat_list.Clear();
+            #endregion // przeszukiwanie powrórzeń w wierszu
+
+            #region przeszukiwanie powrórzeń w kolumnie
+            for (int i = 0; i < GRID_SIZE; i++)
+            {
+                if (this.Table[i, (int)this.y] != 0)
+                {
+                    foreach (int tmp_l in repeat_list)
+                    {
+
+                        if (this.Table[(int)this.x, i] == tmp_l)
+                        {
+                            return 99999;
+                        }
+                        else
+                        {
+                            repeat_list.Add(this.Table[(int)this.x, i]);
+                        }
+
+                    }
+                }
+            }
+            repeat_list.Clear();
+            #endregion //przeszukiwanie powrórzeń w kolumnie
+
+            #region przeszukiwanie bloku w poszukiwaniu powrórzeń
+            for (int i = x_start; i <= x_stop; i++)
+            {
+                for (int j = y_start; j <= y_stop; j++)
+               {
+                    if (this.Table[i, j] != 0)
+                    {
+                        foreach (int tmp_l in repeat_list)
+                        {
+
+                            if (this.Table[i, j] == tmp_l)
+                            {
+                                return 99999;
+                            }
+                            else
+                            {
+                                repeat_list.Add(this.Table[i, j]);
+                            }
+
+                        }
+                    }
+                }
+            }
+            #endregion //przeszukiwanie bloku w poszukiwaniu powrórzeń
+
+            #endregion //repeat
+
+            #region Counter0
+            int Counter0 = 0;
+            int Counter0x = 0;
+            int Counter0y = 0;
+
+            for (int i = 0; i < GRID_SIZE; i++)
+            {
+                if (this.Table[(int)this.x, i] == 0) Counter0x++;
+                if (this.Table[i, (int)this.y] == 0) Counter0y++;
+            }
+          
             for (int i = x_start; i <= x_stop; i++)
             {
                 for (int j = y_start; j <= y_stop; j++)
@@ -109,8 +191,7 @@ namespace Laboratory1
                     if (this.Table[i, j] == 0) Counter0++;
                 }
             }
-
-
+            
 
             if (Counter0 < Counter0x || Counter0 < Counter0y)
             { return Counter0; }
@@ -125,8 +206,7 @@ namespace Laboratory1
                     return Counter0y;
                 }
             }
-
-
+            #endregion //Counter0
 
         }
 

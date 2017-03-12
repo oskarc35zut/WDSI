@@ -146,9 +146,9 @@ namespace Laboratory1 {
                 }
                 else {
                     buildChildren(currentState);
-                    int x = 0;
+
                     foreach (IState child in currentState.Children) {
-                        Console.WriteLine(x++);
+                        
                         if (this.closed.ContainsKey(child.ID)) {
                             continue;
                         }
