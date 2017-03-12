@@ -32,8 +32,13 @@ namespace Laboratory1
         public override double ComputeHeuristicGrade() //wzór na obliczanie heurystyki
         {
             /// <summary>
-            /// Heurystyka naiwna
+            /// Heurystyka wg minimum pozostałych mozliwosci
             ///
+            /// Utozsamijmy v z tablica sudoku. Niech Rv(i, j) oznacza pozostałe mozliwosci
+            ///dla komórki(i, j) tablicy v — pozostałe poprzez wyeliminowanie liczb
+            ///obecnych w wierszu i, kolumnie j i podkwadracie, do którego nalezy(i, j).
+            ///Mówimy, ze stan jest tym blizszy rozwiazaniu, im ma mniej pozostałych
+            ///mozliwosci dla pewnej komórki. Dzieci podpinamy w tej własnie komórce.
             /// </summary>
 
             if (this.x == null || this.y == null) return 99999;
