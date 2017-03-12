@@ -7,7 +7,7 @@ namespace Laboratory1
 {
     public class SudokuSearch : AStarSearch
     {
-        public SudokuSearch(SudokuState state) : base(state, true, true) { }
+        public SudokuSearch(SudokuState state) : base(state, true, true) { }// dziedziczy cały konstruktor po AStartSearch
         protected override void buildChildren(IState parent)
         {
             SudokuState state = (SudokuState)parent;

@@ -29,6 +29,7 @@ namespace Laboratory1 {
             {
                 s.Print();
             }
+            Console.ReadLine();
         }
     }
 }
