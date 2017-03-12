@@ -51,21 +51,21 @@ namespace Laboratory1
             int x_start = 0; int y_start = 0;
             int x_stop = 0; int y_stop = 0;
 
-            if (x >= 0 || x <= 2)
+            if (x >= 0 && x <= 2)
             {
                 x_start = 0;
                 x_stop = 2;
             }
             else
             {
-                if (x >= 3 || x <= 5)
+                if (x >= 3 && x <= 5)
                 {
                     x_start = 3;
                     x_stop = 5;
                 }
                 else
                 {
-                    if (x >= 6 || x <= 8)
+                    if (x >= 6 && x <= 8)
                     {
                         x_start = 6;
                         x_stop = 8;
@@ -73,21 +73,21 @@ namespace Laboratory1
                 }
             }
 
-            if (y >= 0 || y <= 2)
+            if (y >= 0 && y <= 2)
             {
                 y_start = 0;
                 y_stop = 2;
             }
             else
             {
-                if (y >= 3 || y <= 5)
+                if (y >= 3 && y <= 5)
                 {
                     y_start = 3;
                     y_stop = 5;
                 }
                 else
                 {
-                    if (y >= 6 || y <= 8)
+                    if (y >= 6 && y <= 8)
                     {
                         y_start = 6;
                         y_stop = 8;
@@ -214,28 +214,48 @@ namespace Laboratory1
         {
             for (int i = 0; i < 9; i++)
             {
-                //Console.WriteLine("");
+                Console.WriteLine("");
                 for (int j = 0; j < 9; j++)
                 {
+                    //Console.Write("[" + i + "," + j + "]");
                     Console.Write(table[i, j]);
-                    if (table[i,j] == 0) 
+                    if (j > 0 && j < 8 && ((j+1) % 3 == 0))
                     {
-                        //Console.Write(" ");
+                        Console.Write(" ");
+                        Console.BackgroundColor = ConsoleColor.White;
+                        Console.Write(" ");
+                        Console.BackgroundColor = ConsoleColor.Black;
+                        Console.Write(" ");
                     }
-                    else{
+
                     
-                    if (j == 2 || j == 5 || j == 8)
-                    {
-                        //Console.Write(" || ");
-                    }
-                    }
+
+                    //
+                    //    if (table[i,j] == 0) 
+                    //    {
+                    //        //Console.Write(" ");
+                    //    }
+                    //    else{
+
+                    //    if (j == 2 || j == 5 || j == 8)
+                    //    {
+                    //        Console.Write(" ");
+                    //    }
+                    //    }
+                    //}
+                    //if (i == 2 || i == 5 || i == 8)
+                    //{
+                    //    //Console.WriteLine("----------------------------");
+                    //}
                 }
-                if (i == 2 || i == 5 || i == 8)
+                if (i > 0 && i < 8 && ((i + 1) % 3 == 0))
                 {
-                    //Console.WriteLine("----------------------------");
+                    Console.BackgroundColor = ConsoleColor.White;
+                    Console.Write("\n               ");
+                    Console.BackgroundColor = ConsoleColor.Black;
                 }
             }
-            Console.Write("\n####\n");
+            Console.Write("\n\n####\n");
         }
 
 
