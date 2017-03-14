@@ -40,14 +40,12 @@ namespace Laboratory1
             ///obecnych w wierszu i, kolumnie j i podkwadracie, do którego nalezy(i, j).
             ///Mówimy, ze stan jest tym blizszy rozwiazaniu, im ma mniej pozostałych
             ///mozliwosci dla pewnej komórki. Dzieci podpinamy w tej własnie komórce.
-            ///
-            /// x przekazywana z buildchild definiowana w kontruktorze Statesdoku; domyślnie null.
-            /// y przekazywana z buildchild definiowana w kontruktorze Statesdoku; domyślnie null.
-            /// </summary>
-
+            ///</summary>
+            ///<param name="this.x"> przekazywana z buildchild definiowana w kontruktorze Statesdoku; domyślnie null. </param>
+            ///<param name="this.y"> przekazywana z buildchild definiowana w kontruktorze Statesdoku; domyślnie null. </param>
             if (this.x == null || this.y == null) return 99999;
 
-            #region wyznaczanie granic small_grid w którym znajduje się komórka w tabeli
+            #region wyznaczanie granic bloku w którym znajduje się komórka w tabeli
             int x_start = 0; int y_start = 0;
             int x_stop = 0; int y_stop = 0;
 
@@ -173,20 +171,16 @@ namespace Laboratory1
 
             #endregion //repeat
 
-
             #region Capabilities_value
-
-            int[] Capabilities_list = {1, 2, 3, 4, 5, 6 , 7, 8, 9};
             
-            int Capabilities_counter = 0;
-            int Capabilities_counterX = 0;
-            int Capabilities_counterY = 0;
 
+            int[] Capabilities_list = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
             
-            #region wyszukiwanie wystapien w wiersze
+            #region wyszukiwanie wystapien w wierszu
+
             for (int i = 0; i < GRID_SIZE; i++)
             {
-                if (Table[i, (int)y] != 0)
+                if (this.Table[i, (int)(this.y)] != 0)
                 { 
                     for(int j = 0; j < 9; j++)
                     {
@@ -195,83 +189,64 @@ namespace Laboratory1
                             Capabilities_list[j] = 0;
                         }
                     }
-
-                
-                    
+  
                 }
             }
-            //Console.ReadLine();
             #endregion // wyszukiwanie wystapien w wierszu
 
-            
-            
-            #endregion //wyszukiwanie wystapien w kolumnie
+            #region wyszukiwanie wystapien w kolumnie
 
-            //#region przeszukiwanie bloku w poszukiwaniu wystapien
-            //for (int i = x_start; i <= x_stop; i++)
-            //{
-            //    for (int j = y_start; j <= y_stop; j++)
-            //    {
-            //        if (this.Table[i, j] != 0)
-            //        {
-            //            foreach (int tmp_l in Capabilities_list)
-            //            {
+            for (int i = 0; i < GRID_SIZE; i++)
+            {
+                if (this.Table[(int)(this.x), i] != 0)
+                {
+                    for (int j = 0; j < 9; j++)
+                    {
+                        if (Capabilities_list[j] == this.Table[(int)(this.x), i])
+                        {
+                            Capabilities_list[j] = 0;
+                        }
+                    }
 
-            //                if (this.Table[i, j] == tmp_l)
-            //                {
-            //                    Capabilities_list.Remove(tmp_l);
-            //                }
+                }
+            }
+            #endregion // wyszukiwanie wystapien w kolumnie
 
-            //            }
-            //        }
-            //    }
-            //}
-            //#endregion //przeszukiwanie bloku w poszukiwaniu powrórzeń
-            //Capabilities_list.Clear();
+            #region Wyszukiewanie wystapien w blokach
+            for (int i = x_start; i <= x_stop; i++)
+            {
+                for (int j = y_start; j <= y_stop; j++)
+                {
+                    if (this.Table[i, j] != 0)
+                    {
+                        for (int k = 0; k < 9; k++)
+                        {
+                            if (Capabilities_list[k] == this.Table[i, j])
+                            {
+                                Capabilities_list[k] = 0;
+                            }
+                        }
+
+                    }
+                }
+            }
+            #endregion //przeszukiwanie bloku w poszukiwaniu powrórzeń
+
 
             /* W tym miejscu teoretycznie mamy Capabilities_list ze wszystkimi
              * liczbami ktore wystepuja w wierszu kolumnie i kwadracie.
              */
 
-           
+            #endregion //Capabilities_value
 
-            //#endregion //Capabilities_value
+            int counter = 0;
 
-            #region Counter0
-            int Counter0 = 0;
-            int Counter0x = 0;
-            int Counter0y = 0;
-            return 0;
-            for (int i = 0; i < GRID_SIZE; i++)
+            for (int i = 0; i < 9; i++)
             {
-                if (this.Table[(int)this.x, i] == 0) Counter0x++;
-                if (this.Table[i, (int)this.y] == 0) Counter0y++;
+                if (Capabilities_list[i] != 0) counter++;
             }
-          
-            for (int i = x_start; i <= x_stop; i++)
-            {
-                for (int j = y_start; j <= y_stop; j++)
-                {
-                    if (this.Table[i, j] == 0) Counter0++;
-                }
-            }
-            
 
-            //if (Counter0 < Counter0x || Counter0 < Counter0y)
-            //{ return Counter0; }
-            //else
-            //{
-            //   if(Counter0x < Counter0y)
-            //    {
-            //        return Counter0x;
-            //    }
-            //   else
-            //    {
-            //        return Counter0y;
-            //    }
-            //}
-            #endregion //Counter0
-
+            return counter;
         }
 
         public void Print()
@@ -281,7 +256,6 @@ namespace Laboratory1
                 Console.WriteLine("");
                 for (int j = 0; j < 9; j++)
                 {
-                    //Console.Write("[" + i + "," + j + "]");
                     Console.Write(table[i, j]);
                     if (j > 0 && j < 8 && ((j+1) % 3 == 0))
                     {
@@ -292,25 +266,7 @@ namespace Laboratory1
                         Console.Write(" ");
                     }
 
-                    
-
-                    //
-                    //    if (table[i,j] == 0) 
-                    //    {
-                    //        //Console.Write(" ");
-                    //    }
-                    //    else{
-
-                    //    if (j == 2 || j == 5 || j == 8)
-                    //    {
-                    //        Console.Write(" ");
-                    //    }
-                    //    }
-                    //}
-                    //if (i == 2 || i == 5 || i == 8)
-                    //{
-                    //    //Console.WriteLine("----------------------------");
-                    //}
+                   
                 }
                 if (i > 0 && i < 8 && ((i + 1) % 3 == 0))
                 {
