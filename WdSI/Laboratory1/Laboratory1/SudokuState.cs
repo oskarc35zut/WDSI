@@ -309,7 +309,7 @@ namespace Laboratory1
             this.id = builder.ToString();
             this.x = x;
             this.y = y;
-            this.h = ComputeHeuristicGrade();
+            this.h = 0; // ComputeHeuristicGrade();
 
 
 

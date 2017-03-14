@@ -233,7 +233,7 @@ namespace Laboratory1
                 }
             }
 
-            for (int m = 0; m <= SudokuState.GRID_SIZE; m++)
+            for (int m = 0; m < (SudokuState.GRID_SIZE-1); m++)
             { 
                 for (int i = 0; i < SudokuState.GRID_SIZE; ++i)
                 {
@@ -253,6 +253,24 @@ namespace Laboratory1
                 }
             }
 
+
+            for (int i = 0; i < SudokuState.GRID_SIZE; ++i)
+            {
+                for (int j = 0; j < SudokuState.GRID_SIZE; ++j)
+                {
+                    if (Heuristis_array[i, j] == 99999)
+                    {
+
+                        for (int k = 1; k < SudokuState.GRID_SIZE + 1; ++k)
+                        {
+                            SudokuState child = new SudokuState(state, k, i, j);
+                            parent.Children.Add(child);
+                        }
+                        break;
+                    }
+                }
+            }
+            
             //// poszukiwanie wolnego pola
             //for (int i = 0; i < SudokuState.GRID_SIZE; ++i)
             //{

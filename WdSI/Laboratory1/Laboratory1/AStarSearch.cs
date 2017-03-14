@@ -173,7 +173,7 @@ namespace Laboratory1 {
                     }
                 }
 
-                this.closed.Add(currentState.ID, currentState);
+               this.closed.Add(currentState.ID, currentState);
 
                 if (this.open.Count == 1) {
                     break;
