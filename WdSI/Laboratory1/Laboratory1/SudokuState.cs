@@ -173,11 +173,75 @@ namespace Laboratory1
 
             #endregion //repeat
 
+
+            #region Capabilities_value
+
+            int[] Capabilities_list = {1, 2, 3, 4, 5, 6 , 7, 8, 9};
+            
+            int Capabilities_counter = 0;
+            int Capabilities_counterX = 0;
+            int Capabilities_counterY = 0;
+
+            
+            #region wyszukiwanie wystapien w wiersze
+            for (int i = 0; i < GRID_SIZE; i++)
+            {
+                if (Table[i, (int)y] != 0)
+                { 
+                    for(int j = 0; j < 9; j++)
+                    {
+                        if (Capabilities_list[j] == Table[i, (int)y])
+                        {
+                            Capabilities_list[j] = 0;
+                        }
+                    }
+
+                
+                    
+                }
+            }
+            //Console.ReadLine();
+            #endregion // wyszukiwanie wystapien w wierszu
+
+            
+            
+            #endregion //wyszukiwanie wystapien w kolumnie
+
+            //#region przeszukiwanie bloku w poszukiwaniu wystapien
+            //for (int i = x_start; i <= x_stop; i++)
+            //{
+            //    for (int j = y_start; j <= y_stop; j++)
+            //    {
+            //        if (this.Table[i, j] != 0)
+            //        {
+            //            foreach (int tmp_l in Capabilities_list)
+            //            {
+
+            //                if (this.Table[i, j] == tmp_l)
+            //                {
+            //                    Capabilities_list.Remove(tmp_l);
+            //                }
+
+            //            }
+            //        }
+            //    }
+            //}
+            //#endregion //przeszukiwanie bloku w poszukiwaniu powrórzeń
+            //Capabilities_list.Clear();
+
+            /* W tym miejscu teoretycznie mamy Capabilities_list ze wszystkimi
+             * liczbami ktore wystepuja w wierszu kolumnie i kwadracie.
+             */
+
+           
+
+            //#endregion //Capabilities_value
+
             #region Counter0
             int Counter0 = 0;
             int Counter0x = 0;
             int Counter0y = 0;
-
+            return 0;
             for (int i = 0; i < GRID_SIZE; i++)
             {
                 if (this.Table[(int)this.x, i] == 0) Counter0x++;
@@ -193,19 +257,19 @@ namespace Laboratory1
             }
             
 
-            if (Counter0 < Counter0x || Counter0 < Counter0y)
-            { return Counter0; }
-            else
-            {
-               if(Counter0x < Counter0y)
-                {
-                    return Counter0x;
-                }
-               else
-                {
-                    return Counter0y;
-                }
-            }
+            //if (Counter0 < Counter0x || Counter0 < Counter0y)
+            //{ return Counter0; }
+            //else
+            //{
+            //   if(Counter0x < Counter0y)
+            //    {
+            //        return Counter0x;
+            //    }
+            //   else
+            //    {
+            //        return Counter0y;
+            //    }
+            //}
             #endregion //Counter0
 
         }
