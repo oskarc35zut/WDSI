@@ -275,6 +275,22 @@ namespace Laboratory1
             int x_start = 0; int y_start = 0;
             int x_stop = 0; int y_stop = 0;
 
+            for (i=0; i <= 8; i+=2)
+            {
+                if (x == i)
+                {
+                    x_start = i;
+                    x_stop = i + 2;
+                }
+                if (y == i)
+                {
+                    y_start = i;
+                    y_stop = i + 2;
+                }
+
+            }
+
+
             if (x >= 0 && x <= 2)
             {
                 x_start = 0;

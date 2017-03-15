@@ -14,6 +14,8 @@ namespace Laboratory1
 
         private string id;
 
+        public const double infinity = 99999; //"nieskończonosc"
+
         private int[,] table;
 
         public int[,] Table {
@@ -36,10 +38,10 @@ namespace Laboratory1
         public override double ComputeHeuristicGrade()
         {
 
-            return 0;
+            return infinity;
         }
 
-        public double ComputeHeuristicGrade(int i, int j) //wzór na obliczanie heurystyki
+        public double ComputeHeuristicGrade(int x, int y) //wzór na obliczanie heurystyki
         {
             /// <summary>
             /// Heurystyka wg minimum pozostałych mozliwosci
@@ -50,7 +52,26 @@ namespace Laboratory1
             ///Mówimy, ze stan jest tym blizszy rozwiazaniu, im ma mniej pozostałych
             ///mozliwosci dla pewnej komórki. Dzieci podpinamy w tej własnie komórce.
             ///</summary>
+            
+            #region identyfikacja kratki oraz jej granic
+            int x_start = 0; int y_start = 0;
+            int x_stop = 0; int y_stop = 0;
 
+            for (int i = 0; i < 8; i += 3)
+            {
+                if (x >= i && x <= i+2)
+                    {
+                    x_start = i;
+                    x_stop = i + 2;
+                        
+                }
+                if (y >= i && y <= i+2)
+                    {
+                    y_start = i;
+                    y_stop = i + 2;
+                }
+            }
+            #endregion //identyfikacja kratki oraz jej granic
 
             return 0;
         }
@@ -102,6 +123,7 @@ namespace Laboratory1
                 for (int j = 0; j < GRID_SIZE; ++j)
                 {
                     this.table[i, j] = sudokuPattern[i * GRID_SIZE + j] - 48;
+                    heuristic_array[i, j] = ComputeHeuristicGrade(i, j);//Tworzymy tablice heurystyk komórek węzła
                 }
             }
             this.h = ComputeHeuristicGrade();
@@ -122,12 +144,12 @@ namespace Laboratory1
             builder[x * GRID_SIZE + y] = (char)(newValue + 48);
             this.id = builder.ToString();
 
-             //Tworzymy tablice heurystyk pustych miejsc węzła
+            //Tworzymy tablice heurystyk komórek węzła
             for (int i = 0; i < SudokuState.GRID_SIZE; ++i)
             {
                 for (int j = 0; j < SudokuState.GRID_SIZE; ++j)
                 {
-                    Heuristic_array[i, j] = ComputeHeuristicGrade(i, j);
+                    heuristic_array[i, j] = ComputeHeuristicGrade(i, j);
                 }
             }
 

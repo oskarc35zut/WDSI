@@ -7,6 +7,7 @@ namespace Laboratory1 {
     class Program {
         static void Main(string[] args)
         {
+            
             Console.BufferHeight = 1000;
             string sudokuPattern = "000000465469583712275461893342958176597136284618724359954812637731645928826397541"; // sudoku w postaci stringa np .:" 010330218... "
                                   //183279465469583712275461893342958176597136284618724359954812637731645928826397541
@@ -33,4 +34,5 @@ namespace Laboratory1 {
             Console.ReadLine();
         }
     }
+    
 }

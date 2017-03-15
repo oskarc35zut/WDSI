@@ -13,9 +13,9 @@ namespace Laboratory1
         {
             SudokuState state = (SudokuState)parent;
 
-            
+            // Każdy węzeł ma swoją tablice tworzoną w jego kontruktorze.
 
-            for (int m = 1; m < (SudokuState.GRID_SIZE); m++)
+            for (int m = 1; m < (SudokuState.GRID_SIZE); m++)// nie wiem czy m od 0 czy od 1
             { 
                 for (int i = 0; i < SudokuState.GRID_SIZE; ++i)
                 {
@@ -29,7 +29,7 @@ namespace Laboratory1
                                 SudokuState child = new SudokuState(state, k, i, j);
                                 parent.Children.Add(child);
                             }
-                            break;
+                            break; //zastanawia mnie ten break; po co wychodzi 
                         }
                     }
                 }
