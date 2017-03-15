@@ -9,6 +9,8 @@ namespace Laboratory1
     {
         public static int heurystyka(int[,] Table, int x, int y)
         {
+            if (Table[x, y] != 0) return 99999;
+
             int GRID_SIZE = 9;
 
             #region wyznaczanie granic bloku w którym znajduje się komórka w tabeli
@@ -157,6 +159,7 @@ namespace Laboratory1
                     }
 
                 }
+
             }
             #endregion // wyszukiwanie wystapien w wierszu
 
@@ -223,28 +226,28 @@ namespace Laboratory1
         {
             SudokuState state = (SudokuState)parent;
 
-            int[,] Heuristis_array = new int[9,9];
+            int[,] Heuristic_array = new int[9,9];
 
             for (int i = 0; i < SudokuState.GRID_SIZE; ++i)
             {
                 for (int j = 0; j < SudokuState.GRID_SIZE; ++j)
                 {
-                    Heuristis_array[i,j] = heurystyka(state.Table, i, j);
+                    Heuristic_array[i,j] = heurystyka(state.Table, i, j);
                 }
             }
 
-            for (int m = 0; m < (SudokuState.GRID_SIZE-1); m++)
+            for (int m = 1; m < (SudokuState.GRID_SIZE); m++)
             { 
                 for (int i = 0; i < SudokuState.GRID_SIZE; ++i)
                 {
                     for (int j = 0; j < SudokuState.GRID_SIZE; ++j)
                     { 
-                        if (Heuristis_array[i, j] == m)
+                        if ((Heuristic_array[i, j] == m) && (state.Table[i,j] == 0))
                         {
                             
                             for (int k = 1; k < SudokuState.GRID_SIZE + 1; ++k)
                             {
-                                SudokuState child = new SudokuState(state, k, i, j);
+                                SudokuState child = new SudokuState(state, k, i, j, Heuristic_array);
                                 parent.Children.Add(child);
                             }
                             break;
@@ -252,25 +255,25 @@ namespace Laboratory1
                     }
                 }
             }
-
-
-            for (int i = 0; i < SudokuState.GRID_SIZE; ++i)
-            {
-                for (int j = 0; j < SudokuState.GRID_SIZE; ++j)
-                {
-                    if (Heuristis_array[i, j] == 99999)
-                    {
-
-                        for (int k = 1; k < SudokuState.GRID_SIZE + 1; ++k)
-                        {
-                            SudokuState child = new SudokuState(state, k, i, j);
-                            parent.Children.Add(child);
-                        }
-                        break;
-                    }
-                }
-            }
             
+
+            //for (int i = 0; i < SudokuState.GRID_SIZE; ++i)
+            //{
+            //    for (int j = 0; j < SudokuState.GRID_SIZE; ++j)
+            //    {
+            //        if (Heuristic_array[i, j] == 99999)
+            //        {
+
+            //            for (int k = 1; k < SudokuState.GRID_SIZE + 1; ++k)
+            //            {
+            //                SudokuState child = new SudokuState(state, k, i, j);
+            //                parent.Children.Add(child);
+            //            }
+            //            break;
+            //        }
+            //    }
+            //}
+            //Console.Read();
             //// poszukiwanie wolnego pola
             //for (int i = 0; i < SudokuState.GRID_SIZE; ++i)
             //{

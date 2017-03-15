@@ -18,12 +18,23 @@ namespace Laboratory1
 
         private int? y;
 
+        
+
         private int[,] table;
+
 
         public int[,] Table {
             get { return this.table; }
             set { this.table = value; }
         }
+
+        private int[,] heuristic_array;
+        
+        public int[,] Heuristic_array
+        {
+            get { return this.heuristic_array; }
+        }
+
         public override string ID //const. setowany w konstruktorze
         {
             get { return this.id; }
@@ -300,7 +311,7 @@ namespace Laboratory1
             }
             this.h = ComputeHeuristicGrade();
         }
-        public SudokuState(SudokuState parent, int newValue, int x , int y) : base(parent) {
+        public SudokuState(SudokuState parent, int newValue, int x , int y, int[,] _Heuristic_array) : base(parent) {
             this.table = new int[GRID_SIZE, GRID_SIZE];
             Array.Copy(parent.table, this.table, this.table.Length);
             this.table[x, y] = newValue;
@@ -309,7 +320,8 @@ namespace Laboratory1
             this.id = builder.ToString();
             this.x = x;
             this.y = y;
-            this.h = 0; // ComputeHeuristicGrade();
+            this.h = ComputeHeuristicGrade();
+            this.heuristic_array = _Heuristic_array;
 
 
 
