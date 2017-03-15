@@ -8,8 +8,9 @@ namespace Laboratory1 {
         static void Main(string[] args)
         {
             Console.BufferHeight = 1000;
-            string sudokuPattern = "000079065000003002005060093340050106000000000608020059950010600700600000820390000"; // sudoku w postaci stringa np .:" 010330218... "
-
+            string sudokuPattern = "000000465469583712275461893342958176597136284618724359954812637731645928826397541"; // sudoku w postaci stringa np .:" 010330218... "
+                                  //183279465469583712275461893342958176597136284618724359954812637731645928826397541
+            //000079065000003002005060093340050106000000000608020059950010600700600000820390000
             SudokuState startState = new SudokuState(sudokuPattern);
             SudokuSearch searcher = new SudokuSearch(startState);
             searcher.DoSearch();
