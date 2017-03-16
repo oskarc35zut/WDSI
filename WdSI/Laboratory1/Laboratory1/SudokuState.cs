@@ -8,13 +8,14 @@ namespace Laboratory1
     public class SudokuState : State
 
     {
+        #region zmienne
         public const int SMALL_GRID_SIZE = 3;
 
         public const int GRID_SIZE = SMALL_GRID_SIZE * SMALL_GRID_SIZE;
 
         private string id;
 
-        public const double infinity = 99999; //"nieskończonosc"
+        private double infinity = 99999; //"nieskończonosc"
 
         private int[,] table;
 
@@ -23,7 +24,7 @@ namespace Laboratory1
             set { this.table = value; }
         }
 
-        private double[,] heuristic_array;
+        private double[,] heuristic_array = new double[9,9];
         
         public double[,] Heuristic_array
         {
@@ -34,11 +35,12 @@ namespace Laboratory1
         {
             get { return this.id; }
         }
+        #endregion //zmienne
 
         public override double ComputeHeuristicGrade()
         {
 
-            return infinity;
+            return this.infinity;
         }
 
         public double ComputeHeuristicGrade(int x, int y) //wzór na obliczanie heurystyki
@@ -53,7 +55,7 @@ namespace Laboratory1
             ///mozliwosci dla pewnej komórki. Dzieci podpinamy w tej własnie komórce.
             ///</summary>
             
-            #region identyfikacja kratki oraz jej granic
+            #region Identyfikacja kratki oraz jej granic
             int x_start = 0; int y_start = 0;
             int x_stop = 0; int y_stop = 0;
 
@@ -73,7 +75,91 @@ namespace Laboratory1
             }
             #endregion //identyfikacja kratki oraz jej granic
 
-            return 0;
+            #region Powtorki
+            /* 
+             * repeat_list wykresla liczby ktore już sie powtórzyły, w przypaku
+             * gdy liczba powtarza funkcja zwraca heurystyke nieskonczona.
+             * 
+             * return infinity and break the method
+             */
+
+            //List<int> repeat_list = new List<int>();
+
+            //#region przeszukiwanie powrórzeń w wierszu
+            //for (int i = 0; i < GRID_SIZE; i++)
+            //{
+            //    if (Table[i, y] != 0)
+            //    {
+            //        foreach (int tmp_l in repeat_list)
+            //        {
+
+            //            if (Table[i, y] == tmp_l)
+            //            {
+            //                return infinity;
+            //            }
+            //            else
+            //            {
+            //                repeat_list.Add(Table[i, y]);
+            //            }
+
+            //        }
+            //    }
+            //}
+            //repeat_list.Clear();
+            //#endregion // przeszukiwanie powrórzeń w wierszu
+
+            //#region przeszukiwanie powrórzeń w kolumnie
+            //for (int i = 0; i < GRID_SIZE; i++)
+            //{
+            //    if (Table[i, y] != 0)
+            //    {
+            //        foreach (int tmp_l in repeat_list)
+            //        {
+
+            //            if (Table[x, i] == tmp_l)
+            //            {
+            //                return infinity;
+            //            }
+            //            else
+            //            {
+            //                repeat_list.Add(Table[x, i]);
+            //            }
+
+            //        }
+            //    }
+            //}
+            //repeat_list.Clear();
+            //#endregion //przeszukiwanie powrórzeń w kolumnie
+
+            //#region przeszukiwanie bloku w poszukiwaniu powrórzeń
+            //for (int i = x_start; i <= x_stop; i++)
+            //{
+            //    for (int j = y_start; j <= y_stop; j++)
+            //    {
+            //        if (Table[i, j] != 0)
+            //        {
+            //            foreach (int tmp_l in repeat_list)
+            //            {
+
+            //                if (Table[i, j] == tmp_l)
+            //                {
+            //                    return infinity;
+            //                }
+            //                else
+            //                {
+            //                    repeat_list.Add(Table[i, j]);
+            //                }
+
+            //            }
+            //        }
+            //    }
+            //}
+            //repeat_list.Clear();
+            //#endregion //przeszukiwanie bloku w poszukiwaniu powrórzeń
+
+            #endregion //repeat
+
+            return 8;
         }
 
         public void Print()
@@ -123,10 +209,19 @@ namespace Laboratory1
                 for (int j = 0; j < GRID_SIZE; ++j)
                 {
                     this.table[i, j] = sudokuPattern[i * GRID_SIZE + j] - 48;
-                    heuristic_array[i, j] = ComputeHeuristicGrade(i, j);//Tworzymy tablice heurystyk komórek węzła
                 }
             }
-            this.h = ComputeHeuristicGrade();
+            
+            //Tworzymy tablice heurystyk komórek węzła z Talicy
+            for (int i = 0; i < GRID_SIZE; ++i)
+            {
+                for (int j = 0; j < GRID_SIZE; ++j)
+                {
+                    this.heuristic_array[i, j] = ComputeHeuristicGrade(i, j);
+                }
+            }
+
+            this.h = infinity;
         }
         public SudokuState(SudokuState parent, int newValue, int x, int y) : base(parent) {
             this.table = new int[GRID_SIZE, GRID_SIZE];
@@ -134,8 +229,6 @@ namespace Laboratory1
             // Skopiowanie stanu sudoku do nowej tabeli
             Array.Copy(parent.table, this.table, this.table.Length);
 
-            //tworzymy heurysyke węzła; chyba przed zamianą wartości z tego względu ze to heurystyka dla parrenta albo kij wie
-            this.h = ComputeHeuristicGrade(x, y);
 
             // Ustawienie nowej wartosci w wybranym polu sudoku
             this.table[x, y] = newValue;
@@ -144,14 +237,17 @@ namespace Laboratory1
             builder[x * GRID_SIZE + y] = (char)(newValue + 48);
             this.id = builder.ToString();
 
-            //Tworzymy tablice heurystyk komórek węzła
-            for (int i = 0; i < SudokuState.GRID_SIZE; ++i)
+            //Tworzymy tablice heurystyk komórek węzła z Talicy
+            for (int i = 0; i < GRID_SIZE; ++i)
             {
-                for (int j = 0; j < SudokuState.GRID_SIZE; ++j)
+                for (int j = 0; j < GRID_SIZE; ++j)
                 {
-                    heuristic_array[i, j] = ComputeHeuristicGrade(i, j);
+                    this.heuristic_array[i, j] = ComputeHeuristicGrade(i, j);
                 }
             }
+
+            //Wyciagamy heurystyke wezla dla 
+            this.h = this.heuristic_array[x, y];
 
         }
     }
