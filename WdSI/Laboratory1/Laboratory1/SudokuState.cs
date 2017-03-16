@@ -83,79 +83,45 @@ namespace Laboratory1
              * return infinity and break the method
              */
 
-            //List<int> repeat_list = new List<int>();
+            List<int> repeat_list = new List<int>();
 
-            //#region przeszukiwanie powrórzeń w wierszu
-            //for (int i = 0; i < GRID_SIZE; i++)
-            //{
-            //    if (Table[i, y] != 0)
-            //    {
-            //        foreach (int tmp_l in repeat_list)
-            //        {
+            #region przeszukiwanie powrórzeń w wierszu i kolumnie
+            for (int i = 0; i < GRID_SIZE; i++)
+            {
+                if ((Table[i, y] == Table[x, y])
+                    &&
+                    ((  (Table[i, y] != 0) && (i != x)) || 
+                      ( (Table[x, i] != 0) && (i != y)) ))
+                {
+                    return infinity;
+                }
+            }
 
-            //            if (Table[i, y] == tmp_l)
-            //            {
-            //                return infinity;
-            //            }
-            //            else
-            //            {
-            //                repeat_list.Add(Table[i, y]);
-            //            }
+            #region przeszukiwanie bloku w poszukiwaniu powrórzeń
+            for (int i = x_start; i <= x_stop; i++)
+            {
+                for (int j = y_start; j <= y_stop; j++)
+                {
+                    if (Table[i, j] != 0)
+                    {
+                        foreach (int tmp_l in repeat_list)
+                        {
 
-            //        }
-            //    }
-            //}
-            //repeat_list.Clear();
-            //#endregion // przeszukiwanie powrórzeń w wierszu
+                            if (Table[i, j] == tmp_l)
+                            {
+                                return infinity;
+                            }
+                            else
+                            {
+                                repeat_list.Add(Table[i, j]);
+                            }
 
-            //#region przeszukiwanie powrórzeń w kolumnie
-            //for (int i = 0; i < GRID_SIZE; i++)
-            //{
-            //    if (Table[i, y] != 0)
-            //    {
-            //        foreach (int tmp_l in repeat_list)
-            //        {
-
-            //            if (Table[x, i] == tmp_l)
-            //            {
-            //                return infinity;
-            //            }
-            //            else
-            //            {
-            //                repeat_list.Add(Table[x, i]);
-            //            }
-
-            //        }
-            //    }
-            //}
-            //repeat_list.Clear();
-            //#endregion //przeszukiwanie powrórzeń w kolumnie
-
-            //#region przeszukiwanie bloku w poszukiwaniu powrórzeń
-            //for (int i = x_start; i <= x_stop; i++)
-            //{
-            //    for (int j = y_start; j <= y_stop; j++)
-            //    {
-            //        if (Table[i, j] != 0)
-            //        {
-            //            foreach (int tmp_l in repeat_list)
-            //            {
-
-            //                if (Table[i, j] == tmp_l)
-            //                {
-            //                    return infinity;
-            //                }
-            //                else
-            //                {
-            //                    repeat_list.Add(Table[i, j]);
-            //                }
-
-            //            }
-            //        }
-            //    }
-            //}
-            //repeat_list.Clear();
-            //#endregion //przeszukiwanie bloku w poszukiwaniu powrórzeń
+                        }
+                    }
+                }
+            }
+            repeat_list.Clear();
+            #endregion //przeszukiwanie bloku w poszukiwaniu powrórzeń
 
             #endregion //repeat
 
