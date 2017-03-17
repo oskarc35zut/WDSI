@@ -102,10 +102,55 @@ namespace Laboratory1
                     }
                 }
             }
+            #endregion //Powtorki - wersja zminimalizowana
 
-            #endregion //repeat
+            #region main
+            /*
+             * W tym miejscu powinniśmy już wiedzieć że wartosc badanej
+             * komórki nie powtarza się wierszu & kolumnie & bloku.
+             * 
+             * Algorytm w wykreslaniu pomija wartosc badanej komórki!
+             * Może to być istotne dla dzialania calej reszty programu.
+             */
 
-            return 8;
+            int[] Capabilities_vector = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }; //wektor potencialnych możliwośći
+
+            //"wykreslanie" z wektora potencialnych możliwości liczb które już występuja w wierszu kolumnie lub bloku
+            for (int i = 0; i < GRID_SIZE; i++)
+            {
+                for (int j = 0; j < GRID_SIZE; j++)
+                {
+                    if ((Table[i, y] != 0) && (i != x) && (Table[i, y] == Capabilities_vector[j]) ||
+                       ((Table[x, i] != 0) && (i != y) && (Table[x, i] == Capabilities_vector[j])))
+                    {
+                        Capabilities_vector[j] = 0; 
+                    }
+                
+                    if ((i >= x_start) && (i <= x_stop))
+                    {
+                        for (int k = y_start; k <= y_stop; k++)
+                        {
+                            if ((Table[i, k] != 0) && (Table[i, k] == Capabilities_vector[j]) && (i != x) && (k != y))
+                            {
+                                Capabilities_vector[j] = 0;
+                            }
+                        }
+                    }
+                }
+            }
+            
+
+
+            //zliczanie pozostałych możliwości
+            int counter = 0;
+
+            for (int i = 0; i < 9; i++)
+            {
+                if (Capabilities_vector[i] != 0) counter++;
+            }
+
+            return counter;
+            #endregion //main
         }
 
         public void Print()
