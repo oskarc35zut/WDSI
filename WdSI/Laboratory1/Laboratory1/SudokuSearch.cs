@@ -15,7 +15,21 @@ namespace Laboratory1
 
             // Każdy węzeł ma swoją tablice heurystyczna tworzoną w jego kontruktorze.
 
-            for (int m = 1; m < (SudokuState.GRID_SIZE); m++)// nie wiem czy m od 0 czy od 1
+            double F_max = 0;
+
+            for (int i = 0; i < SudokuState.GRID_SIZE; ++i)
+            {
+                for (int j = 0; j < SudokuState.GRID_SIZE; ++j)
+                {
+                    if ((state.Heuristic_array[i, j] > F_max) && (state.Heuristic_array[i, j] != state.infinity))
+                    {
+                        F_max = state.Heuristic_array[i, j];
+                    }
+                }
+            }
+
+
+            for (int m = 1; m <= F_max; m++)// nie wiem czy m od 0 czy od 1
             { 
                 for (int i = 0; i < SudokuState.GRID_SIZE; ++i)
                 {

@@ -16,7 +16,7 @@ namespace Laboratory1
 
         private string id;
 
-        private double infinity = 99999; //"nieskończonosc"
+        public double infinity = Double.MaxValue; //"nieskończonosc"
 
         private int[,] table;
 
@@ -230,9 +230,8 @@ namespace Laboratory1
                     this.heuristic_array[i, j] = ComputeHeuristicGrade(i, j, true);
                 }
             }
-
-            this.h = this.infinity;
-            this.Print();
+            this.h = infinity;
+            //this.Print();
         }
         public SudokuState(SudokuState parent, int newValue, int x, int y) : base(parent) {
             this.table = new int[GRID_SIZE, GRID_SIZE];
@@ -259,7 +258,6 @@ namespace Laboratory1
                     this.heuristic_array[i, j] = ComputeHeuristicGrade(i, j, true);
                 }
             }
-            
 
             //Console.Clear();
             //this.Print();
