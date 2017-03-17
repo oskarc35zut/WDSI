@@ -56,6 +56,7 @@ namespace Laboratory1
             ///mozliwosci dla pewnej komórki. Dzieci podpinamy w tej własnie komórce.
             ///</summary>
 
+
             if (flaga && (Table[x, y] != 0)) return this.infinity;
 
             #region Identyfikacja kratki oraz jej granic
@@ -118,13 +119,19 @@ namespace Laboratory1
 
             int[] Capabilities_vector = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }; //wektor potencialnych możliwośći
 
+            
+            //bool flaga_1 = false;
+            //if (!flaga)
+            //{
+            //    if (this.parent.H == 1) flaga_1 = !flaga;
+            //}
             //"wykreslanie" z wektora potencialnych możliwości liczb które już występuja w wierszu kolumnie lub bloku
             for (int i = 0; i < GRID_SIZE; i++)
             {
                 for (int j = 0; j < GRID_SIZE; j++)
                 {
-                    if ((Table[i, y] != 0) && (i != x) && (Table[i, y] == Capabilities_vector[j]) ||
-                       ((Table[x, i] != 0) && (i != y) && (Table[x, i] == Capabilities_vector[j])))
+                    if ((Table[i, y] != 0) && (Table[i, y] == Capabilities_vector[j]) ||
+                       ((Table[x, i] != 0) && (Table[x, i] == Capabilities_vector[j])))
                     {
                         Capabilities_vector[j] = 0; 
                     }
@@ -133,7 +140,7 @@ namespace Laboratory1
                     {
                         for (int k = y_start; k <= y_stop; k++)
                         {
-                            if ((Table[i, k] != 0) && (Table[i, k] == Capabilities_vector[j]) && (i != x) && (k != y))
+                            if ((Table[i, k] != 0) && (Table[i, k] == Capabilities_vector[j]))
                             {
                                 Capabilities_vector[j] = 0;
                             }
@@ -145,14 +152,23 @@ namespace Laboratory1
 
 
             //zliczanie pozostałych możliwości
-            int counter = 0;
+            int counterH = 0;
+            int counter0 = 0;
 
             for (int i = 0; i < 9; i++)
             {
-                if (Capabilities_vector[i] != 0) counter++;
+                if (Capabilities_vector[i] != 0) counter0++;
+            }
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    if (Table[i,j] == 0) counter0++;
+                }
             }
 
-            return counter;
+
+            return counterH+counter0;
             #endregion //main
         }
 
@@ -216,6 +232,7 @@ namespace Laboratory1
             }
 
             this.h = this.infinity;
+            this.Print();
         }
         public SudokuState(SudokuState parent, int newValue, int x, int y) : base(parent) {
             this.table = new int[GRID_SIZE, GRID_SIZE];
@@ -244,7 +261,7 @@ namespace Laboratory1
             }
             
 
-            Console.Clear();
+            //Console.Clear();
             //this.Print();
             //Thread.Sleep(15);
 
