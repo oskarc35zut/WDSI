@@ -172,14 +172,25 @@ namespace Laboratory1
             #endregion //main
         }
 
-        public void Print()
+        public void Print(int[,] tab_before, int[,] tab_after)
         {
             for (int i = 0; i < 9; i++)
             {
                 Console.WriteLine("");
                 for (int j = 0; j < 9; j++)
                 {
-                    Console.Write(table[i, j]);
+                    if (tab_before[i,j] != tab_after[i,j])
+                    {
+                        Console.BackgroundColor = ConsoleColor.DarkCyan;
+                        Console.Write(tab_after[i, j]);
+                        Console.BackgroundColor = ConsoleColor.Black;
+                    }
+                    else
+                    {
+                        Console.BackgroundColor = ConsoleColor.Black;
+                        Console.Write(tab_after[i, j]);
+                    }
+                    
                     if (j > 0 && j < 8 && ((j+1) % 3 == 0))
                     {
                         Console.Write(" ");

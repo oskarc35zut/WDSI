@@ -41,9 +41,17 @@ namespace Laboratory1 {
             }
             solutionPath.Reverse();
 
+            int[,] table_tmp1 = new int[9,9];
+            int[,] table_tmp2 = new int[9,9];
+
+            table_tmp1 = solutionPath[0].Table;
+
             foreach (SudokuState s in solutionPath)
             {
-                s.Print();
+                table_tmp2 = table_tmp1;
+                table_tmp1 = s.Table;
+
+                s.Print(table_tmp2, table_tmp1);
             }
             Console.ReadLine();
         }
