@@ -75,53 +75,33 @@ namespace Laboratory1
             }
             #endregion //identyfikacja kratki oraz jej granic
 
-            #region Powtorki
+            #region Powtorki - wersja zminimalizowana
             /* 
-             * repeat_list wykresla liczby ktore już sie powtórzyły, w przypaku
+             * repeat_list wykresla liczby ktore już sie powtórzyły - w przypaku
              * gdy liczba powtarza funkcja zwraca heurystyke nieskonczona.
              * 
              * return infinity and break the method
              */
 
-            List<int> repeat_list = new List<int>();
-
-            #region przeszukiwanie powrórzeń w wierszu i kolumnie
             for (int i = 0; i < GRID_SIZE; i++)
             {
-                if ((Table[i, y] == Table[x, y])
-                    &&
-                    ((  (Table[i, y] != 0) && (i != x)) || 
-                      ( (Table[x, i] != 0) && (i != y)) ))
+                if ( (Table[i, y] != 0) && (i != x) && (Table[i, y] == Table[x, y]) ||
+                   ( (Table[x, i] != 0) && (i != y) && (Table[x, i] == Table[x, y]) ))
                 {
                     return infinity;
                 }
-            }
 
-            #region przeszukiwanie bloku w poszukiwaniu powrórzeń
-            for (int i = x_start; i <= x_stop; i++)
-            {
-                for (int j = y_start; j <= y_stop; j++)
+                if ((i >= x_start) && (i <= x_stop))
                 {
-                    if (Table[i, j] != 0)
+                    for (int j = y_start; j <= y_stop; j++)
                     {
-                        foreach (int tmp_l in repeat_list)
+                        if ((Table[i, j] != 0) && (Table[i, j] == Table[x, y]) && (i != x) && (j != y))
                         {
-
-                            if (Table[i, j] == tmp_l)
-                            {
-                                return infinity;
-                            }
-                            else
-                            {
-                                repeat_list.Add(Table[i, j]);
-                            }
-
+                            return infinity;
                         }
                     }
                 }
             }
-            repeat_list.Clear();
-            #endregion //przeszukiwanie bloku w poszukiwaniu powrórzeń
 
             #endregion //repeat
 
