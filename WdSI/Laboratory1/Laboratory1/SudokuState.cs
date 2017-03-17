@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace Laboratory1
 {
@@ -43,7 +44,7 @@ namespace Laboratory1
             return this.infinity;
         }
 
-        public double ComputeHeuristicGrade(int x, int y) //wzór na obliczanie heurystyki
+        public double ComputeHeuristicGrade(int x, int y, bool flaga) //wzór na obliczanie heurystyki
         {
             /// <summary>
             /// Heurystyka wg minimum pozostałych mozliwosci
@@ -54,7 +55,9 @@ namespace Laboratory1
             ///Mówimy, ze stan jest tym blizszy rozwiazaniu, im ma mniej pozostałych
             ///mozliwosci dla pewnej komórki. Dzieci podpinamy w tej własnie komórce.
             ///</summary>
-            
+
+            if (flaga && (Table[x, y] != 0)) return this.infinity;
+
             #region Identyfikacja kratki oraz jej granic
             int x_start = 0; int y_start = 0;
             int x_stop = 0; int y_stop = 0;
@@ -208,11 +211,11 @@ namespace Laboratory1
             {
                 for (int j = 0; j < GRID_SIZE; ++j)
                 {
-                    this.heuristic_array[i, j] = ComputeHeuristicGrade(i, j);
+                    this.heuristic_array[i, j] = ComputeHeuristicGrade(i, j, true);
                 }
             }
 
-            this.h = infinity;
+            this.h = this.infinity;
         }
         public SudokuState(SudokuState parent, int newValue, int x, int y) : base(parent) {
             this.table = new int[GRID_SIZE, GRID_SIZE];
@@ -220,25 +223,30 @@ namespace Laboratory1
             // Skopiowanie stanu sudoku do nowej tabeli
             Array.Copy(parent.table, this.table, this.table.Length);
 
-
             // Ustawienie nowej wartosci w wybranym polu sudoku
             this.table[x, y] = newValue;
+
+            
 
             StringBuilder builder = new StringBuilder(parent.id);
             builder[x * GRID_SIZE + y] = (char)(newValue + 48);
             this.id = builder.ToString();
+
+            this.h = ComputeHeuristicGrade(x, y, false);
 
             //Tworzymy tablice heurystyk komórek węzła z Talicy
             for (int i = 0; i < GRID_SIZE; ++i)
             {
                 for (int j = 0; j < GRID_SIZE; ++j)
                 {
-                    this.heuristic_array[i, j] = ComputeHeuristicGrade(i, j);
+                    this.heuristic_array[i, j] = ComputeHeuristicGrade(i, j, true);
                 }
             }
+            
 
-            //Wyciagamy heurystyke wezla dla 
-            this.h = this.heuristic_array[x, y];
+            Console.Clear();
+            //this.Print();
+            //Thread.Sleep(15);
 
         }
     }

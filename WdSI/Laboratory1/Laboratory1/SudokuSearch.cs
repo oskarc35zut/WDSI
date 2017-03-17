@@ -13,15 +13,16 @@ namespace Laboratory1
         {
             SudokuState state = (SudokuState)parent;
 
-            // Każdy węzeł ma swoją tablice tworzoną w jego kontruktorze.
+            // Każdy węzeł ma swoją tablice heurystyczna tworzoną w jego kontruktorze.
 
             for (int m = 1; m < (SudokuState.GRID_SIZE); m++)// nie wiem czy m od 0 czy od 1
             { 
                 for (int i = 0; i < SudokuState.GRID_SIZE; ++i)
                 {
                     for (int j = 0; j < SudokuState.GRID_SIZE; ++j)
-                    { 
-                        if ((state.Heuristic_array[i, j] == m) && (state.Table[i,j] == 0))
+                    {
+                        //ważne aby rodzic dzieci tylko w pustych miejscach - inaczej bedziemy mieli konflikt id
+                        if ((state.Heuristic_array[i, j] == m)) 
                         {
                             
                             for (int k = 1; k < SudokuState.GRID_SIZE + 1; ++k)
