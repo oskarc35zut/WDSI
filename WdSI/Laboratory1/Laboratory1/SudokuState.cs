@@ -187,8 +187,17 @@ namespace Laboratory1
                     }
                     else
                     {
+                        if(tab_after[i,j] == 0)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
                         Console.BackgroundColor = ConsoleColor.Black;
                         Console.Write(tab_after[i, j]);
+                        Console.ForegroundColor = ConsoleColor.White;
                     }
                     
                     if (j > 0 && j < 8 && ((j+1) % 3 == 0))

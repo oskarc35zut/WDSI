@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 
 namespace Laboratory1 {
     class Program {
@@ -28,7 +29,14 @@ namespace Laboratory1 {
             //000079065000003002005060093340050106000000000608020059950010600700600000820390000
             SudokuState startState = new SudokuState(sudokuPattern);
             SudokuSearch searcher = new SudokuSearch(startState);
+
+            Stopwatch stopWatch_search = new Stopwatch();
+            stopWatch_search.Start();
+
             searcher.DoSearch();
+            stopWatch_search.Stop();
+
+            TimeSpan t_search = stopWatch_search.Elapsed;
 
             IState state = searcher.Solutions[0];
 
@@ -46,6 +54,9 @@ namespace Laboratory1 {
 
             table_tmp1 = solutionPath[0].Table;
 
+            Stopwatch stopWatch_print = new Stopwatch();
+            stopWatch_print.Start();
+
             foreach (SudokuState s in solutionPath)
             {
                 table_tmp2 = table_tmp1;
@@ -53,6 +64,19 @@ namespace Laboratory1 {
 
                 s.Print(table_tmp2, table_tmp1);
             }
+            stopWatch_print.Stop();
+            TimeSpan t_print = stopWatch_print.Elapsed;
+
+            string SearchTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+            t_search.Hours, t_search.Minutes, t_search.Seconds,
+            t_search.Milliseconds / 10);
+            Console.WriteLine("Czas przeszukiwania " + SearchTime);
+
+            string PrintTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+            t_print.Hours, t_print.Minutes, t_print.Seconds,
+            t_print.Milliseconds / 10);
+            Console.WriteLine("Czas wyswietlania " + PrintTime); 
+
             Console.ReadLine();
         }
     }
