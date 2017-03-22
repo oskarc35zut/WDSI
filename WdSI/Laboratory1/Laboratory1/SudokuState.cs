@@ -14,8 +14,6 @@ namespace Laboratory1
 
         public const int GRID_SIZE = SMALL_GRID_SIZE * SMALL_GRID_SIZE;
 
-        private string id;
-
         public double infinity = Double.MaxValue; //"nieskończonosc"
 
         private int[,] table;
@@ -32,6 +30,7 @@ namespace Laboratory1
             get { return this.heuristic_array; }
         }
 
+        private string id;
         public override string ID //const. setowany w konstruktorze
         {
             get { return this.id; }
