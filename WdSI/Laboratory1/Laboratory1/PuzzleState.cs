@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 
 namespace Laboratory1
 {
@@ -117,6 +118,65 @@ namespace Laboratory1
                 }
             }
             Console.Write("\n\n####\n");
+        }
+
+
+        public static void start(int size)
+        {
+            Stopwatch stopWatch_search = new Stopwatch();
+            Stopwatch stopWatch_print = new Stopwatch();
+
+            puzzleSize = size;
+            
+            PuzzleState startState = new PuzzleState(puzzleSize);
+            PuzzleSearch searcher = new PuzzleSearch(startState);
+
+
+            stopWatch_search.Start();
+
+            searcher.DoSearch();
+            stopWatch_search.Stop();
+
+            TimeSpan t_search = stopWatch_search.Elapsed;
+
+            IState state = searcher.Solutions[0];
+
+            List<SudokuState> solutionPath = new List<SudokuState>();
+
+            while (state != null)
+            {
+                solutionPath.Add((SudokuState)state);
+                state = state.Parent;
+            }
+            solutionPath.Reverse();
+
+            int[,] table_tmp1 = new int[9, 9];
+            int[,] table_tmp2 = new int[9, 9];
+
+            table_tmp1 = solutionPath[0].Table;
+
+
+            stopWatch_print.Start();
+
+            foreach (SudokuState s in solutionPath)
+            {
+                table_tmp2 = table_tmp1;
+                table_tmp1 = s.Table;
+
+                s.Print(table_tmp2, table_tmp1);
+            }
+            stopWatch_print.Stop();
+            TimeSpan t_print = stopWatch_print.Elapsed;
+
+            string SearchTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+            t_search.Hours, t_search.Minutes, t_search.Seconds,
+            t_search.Milliseconds / 10);
+            Console.WriteLine("Czas przeszukiwania " + SearchTime);
+
+            string PrintTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+            t_print.Hours, t_print.Minutes, t_print.Seconds,
+            t_print.Milliseconds / 10);
+            Console.WriteLine("Czas wyswietlania " + PrintTime);
         }
 
     }
