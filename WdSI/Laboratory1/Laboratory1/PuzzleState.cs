@@ -31,28 +31,41 @@ namespace Laboratory1
 
 
 
-        public PuzzleState(int PuzzleSize) : base()
+        public PuzzleState() : base()
         {
-            puzzleSize = PuzzleSize;
-            for (int i = 0; i < PuzzleSize; i++)
-            {
-                if(i != (PuzzleSize-1))
-                {
-                    this.id += i;
-                }
-            }
-            this.table = new int[PuzzleSize, PuzzleSize];
+            #region gerowanie ułożonej tablcy 
+            this.table = new int[puzzleSize, puzzleSize];
 
             int licznik = 0;
-            for (int i = 0; i <= PuzzleSize; i++)
+            for (int i = 0; i < puzzleSize; i++)
             {
-                for (int j = 0; j <= PuzzleSize; j++)
+                for (int j = 0; j < puzzleSize; j++)
                 {
                     this.table[i, j] = licznik;
                     licznik++;
                 }
-                licznik++;
             }
+            #endregion //gerowanie ułożonej tablcy 
+
+            #region Mieszanie puzzli
+
+            #endregion //Mieszanie puzzli
+
+
+
+            //Generowanie id z aktualnego stanu tablicy
+            for (int i = 0; i < puzzleSize; i++)
+            {
+                for (int j = 0; j < puzzleSize; j++)
+                {
+                    id += this.table[i, j];
+
+                }
+            }
+
+
+
+            Print(Table, Table);
             Console.Read();
 
 
@@ -70,53 +83,31 @@ namespace Laboratory1
         }
 
 
-
         public void Print(int[,] tab_before, int[,] tab_after)
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < puzzleSize; i++)
             {
-                Console.WriteLine("");
-                for (int j = 0; j < 3; j++)
+
+
+                for (int j=0; j < puzzleSize; j++)
                 {
-                    if (tab_before[i, j] != tab_after[i, j])
+                    if (tab_before == tab_after)
                     {
                         Console.BackgroundColor = ConsoleColor.DarkCyan;
                         Console.Write(tab_after[i, j]);
                         Console.BackgroundColor = ConsoleColor.Black;
+                        Console.Write(" ");
                     }
                     else
                     {
-                        if (tab_after[i, j] == 0)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Green;
-                        }
-                        else
-                        {
-                            Console.ForegroundColor = ConsoleColor.White;
-                        }
-                        Console.BackgroundColor = ConsoleColor.Black;
-                        Console.Write(tab_after[i, j]);
-                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.Write(tab_after[i, j] + " ");
                     }
-
-                    if (j > 0 && j < 3)
-                    {
-                        Console.Write(" ");
-                        Console.BackgroundColor = ConsoleColor.White;
-                        Console.Write(" ");
-                        Console.BackgroundColor = ConsoleColor.Black;
-                        Console.Write(" ");
-                    }
-
-
-                }
-                if (i > 0 && i < 3)
-                {
-                    Console.BackgroundColor = ConsoleColor.White;
-                    Console.Write("\n               ");
-                    Console.BackgroundColor = ConsoleColor.Black;
+                    
+                    if ((j + 1) % puzzleSize == 0) Console.Write("\n");
+                    
                 }
             }
+            
             Console.Write("\n\n####\n");
         }
 
@@ -126,39 +117,39 @@ namespace Laboratory1
             Stopwatch stopWatch_search = new Stopwatch();
             Stopwatch stopWatch_print = new Stopwatch();
 
-            puzzleSize = size;
+                puzzleSize = size;
             
-            PuzzleState startState = new PuzzleState(puzzleSize);
+            PuzzleState startState = new PuzzleState();
             PuzzleSearch searcher = new PuzzleSearch(startState);
 
 
-            stopWatch_search.Start();
+                stopWatch_search.Start();
 
             searcher.DoSearch();
             stopWatch_search.Stop();
 
-            TimeSpan t_search = stopWatch_search.Elapsed;
+                TimeSpan t_search = stopWatch_search.Elapsed;
 
             IState state = searcher.Solutions[0];
 
-            List<SudokuState> solutionPath = new List<SudokuState>();
+            List<PuzzleState> solutionPath = new List<PuzzleState>();
 
             while (state != null)
             {
-                solutionPath.Add((SudokuState)state);
+                solutionPath.Add((PuzzleState)state);
                 state = state.Parent;
             }
             solutionPath.Reverse();
 
-            int[,] table_tmp1 = new int[9, 9];
-            int[,] table_tmp2 = new int[9, 9];
+            int[,] table_tmp1 = new int[puzzleSize, puzzleSize];
+            int[,] table_tmp2 = new int[puzzleSize, puzzleSize];
 
             table_tmp1 = solutionPath[0].Table;
 
 
             stopWatch_print.Start();
 
-            foreach (SudokuState s in solutionPath)
+            foreach (PuzzleState s in solutionPath)
             {
                 table_tmp2 = table_tmp1;
                 table_tmp1 = s.Table;

@@ -10,7 +10,7 @@ namespace Laboratory1 {
         {
             Console.BufferHeight = 1000;
 
-            DialogResult dialogResult_sudoku = MessageBox.Show("Chesz zobaczyć sudoku? ( ͡° ͜ʖ ͡°)", " ", MessageBoxButtons.YesNo);
+            DialogResult dialogResult_sudoku = MessageBox.Show("Chesz zobaczyć sudoku? ( ͡° ͜ʖ ͡°)", "", MessageBoxButtons.YesNo);
             if (dialogResult_sudoku == DialogResult.Yes)
             {
                 string sudokuPattern = "083279465409583710270461893342058176597106284618720359954812037701645908826397540"; // sudoku w postaci stringa np .:" 010330218... "
@@ -36,7 +36,7 @@ namespace Laboratory1 {
                 SudokuState.start(sudokuPattern);
             }
 
-            DialogResult dialogResult_puzzle = MessageBox.Show("A puzzle? ( ͡° ͜ʖ ͡°)", " ", MessageBoxButtons.YesNo);
+            DialogResult dialogResult_puzzle = MessageBox.Show("A puzzle? ( ͡° ͜ʖ ͡°)", "", MessageBoxButtons.YesNo);
             if (dialogResult_puzzle == DialogResult.Yes)
             {
                 int puzzlesize = 3;
