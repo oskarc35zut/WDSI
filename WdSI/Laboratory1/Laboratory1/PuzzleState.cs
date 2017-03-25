@@ -8,6 +8,8 @@ namespace Laboratory1
 {
     class PuzzleState : State
     {
+        private static double infinity = 9999;
+
         private static int puzzleSize;
         private string id;
         public override string ID
@@ -48,10 +50,77 @@ namespace Laboratory1
             #endregion //gerowanie ułożonej tablcy 
 
             #region Mieszanie puzzli
+            Random rnd = new Random();
+
+            int mix_counter = 100;//rnd.Next(5, 10);
+
+            Print(Table, Table);
+            int x = 0, y = 0, gdzie = 0, tmp; // pozycja zera
+            bool done;
+            int[,] print_tmp = new int[puzzleSize, puzzleSize]; //tablica do podgladu kroków mieszania
+
+            while ((mix_counter--) != 0)
+            {
+                print_tmp = (int[,])Table.Clone();
+                done = false;
+                while(!done)
+                {
+
+                   
+
+                    gdzie = rnd.Next(1, 5);
+                    //Console.WriteLine(gdzie);
+                       switch (gdzie)
+                    {
+                        case 1:
+                            if ((x-1) >= 0 && (x-1) < puzzleSize)
+                            {
+                                tmp = Table[x, y];
+                                Table[x, y] = Table[x-1, y];
+                                Table[x - 1, y] = tmp;
+                                x--;
+                                done = true;
+                            }
+                            break;
+                        case 2:
+                            if ((x + 1) >= 0 && (x + 1) < puzzleSize)
+                            {
+                                tmp = Table[x, y];
+                                Table[x, y] = Table[x + 1, y];
+                                Table[x + 1, y] = tmp;
+                                x++;
+                                done = true;
+                            }
+                            break;
+                        case 3:
+                            if ((y - 1) >= 0 && (y - 1) < puzzleSize)
+                            {
+                                tmp = Table[x, y];
+                                Table[x, y] = Table[x , y - 1];
+                                Table[x, y - 1] = tmp;
+                                y--;
+                                done = true;
+                            }
+                            break;
+                        case 4:
+                            if ((y + 1) >= 0 && (y + 1) < puzzleSize)
+                            {
+                                tmp = Table[x, y];
+                                Table[x, y] = Table[x, y + 1];
+                                Table[x, y + 1] = tmp;
+                                y++;
+                                done = true;
+                            }
+                            break;
+                    }   
+
+                }
+
+                //Console.Write("\n");
+                //Print(print_tmp, Table);
+            }
 
             #endregion //Mieszanie puzzli
-
-
 
             //Generowanie id z aktualnego stanu tablicy
             for (int i = 0; i < puzzleSize; i++)
@@ -64,11 +133,7 @@ namespace Laboratory1
             }
 
 
-
-            Print(Table, Table);
-            Console.Read();
-
-
+            this.h = infinity;
         }
 
         public PuzzleState(PuzzleState parent) : base(parent)
@@ -91,7 +156,7 @@ namespace Laboratory1
 
                 for (int j=0; j < puzzleSize; j++)
                 {
-                    if (tab_before == tab_after)
+                    if (tab_before[i,j] != tab_after[i,j])
                     {
                         Console.BackgroundColor = ConsoleColor.DarkCyan;
                         Console.Write(tab_after[i, j]);
