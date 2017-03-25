@@ -553,3 +553,76 @@ namespace Laboratory1
 //        }
 //    }
 //}
+
+string chose = "sudoku";
+            switch (chose)
+            {
+                
+                case "sudoku":
+                    #region sudoku
+
+                    //SudokuState.start();
+
+                    #endregion //sudoku
+                    break;
+                case "puzzle":
+                    #region puzzle
+
+                    //int puzzleSize = 3;
+                    //Stopwatch stopWatch_search = new Stopwatch();
+                    //Stopwatch stopWatch_print = new Stopwatch();
+                    //PuzzleState puzzlestartState = new PuzzleState(puzzleSize);
+                    //PuzzleSearch puzzlesearcher = new PuzzleSearch(puzzlestartState);
+
+                    
+                    //stopWatch_search.Start();
+
+                    //puzzlesearcher.DoSearch();
+                    //stopWatch_search.Stop();
+
+                    ////TimeSpan t_search = stopWatch_search.Elapsed;
+
+                    //IState puzzlestate = puzzlesearcher.Solutions[0];
+
+                    //List<PuzzleState> PuzzlesolutionPath = new List<PuzzleState>();
+
+                    //while (puzzlestate != null)
+                    //{
+                    //    PuzzlesolutionPath.Add((PuzzleState)puzzlestate);
+                    //    state = puzzlestate.Parent;
+                    //}
+                    //PuzzlesolutionPath.Reverse();
+
+                    //int[,] ptable_tmp1 = new int[9, 9];
+                    //int[,] ptable_tmp2 = new int[9, 9];
+
+                    //table_tmp1 = PuzzlesolutionPath[0].Table;
+
+
+                    //stopWatch_print.Start();
+
+                    //foreach (PuzzleState s in PuzzlesolutionPath)
+                    //{
+                    //    ptable_tmp2 = ptable_tmp1;
+                    //    ptable_tmp1 = s.Table;
+
+                    //    s.Print(ptable_tmp2, ptable_tmp1);
+                    //}
+
+                    //stopWatch_print.Stop();
+                    ////TimeSpan t_print = stopWatch_print.Elapsed;
+
+                    ////string SearchTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                    ////t_search.Hours, t_search.Minutes, t_search.Seconds,
+                    ////t_search.Milliseconds / 10);
+                    ////Console.WriteLine("Czas przeszukiwania " + SearchTime);
+
+                    ////string PrintTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                    ////t_print.Hours, t_print.Minutes, t_print.Seconds,
+                    ////t_print.Milliseconds / 10);
+                    ////Console.WriteLine("Czas wyswietlania " + PrintTime);
+                    #endregion //Puzzle
+
+
+                    break;
+            }
