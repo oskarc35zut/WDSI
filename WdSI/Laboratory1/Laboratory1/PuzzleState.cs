@@ -76,7 +76,7 @@ namespace Laboratory1
             #region Mieszanie puzzli
             Random rnd = new Random();
 
-            int mix_counter = 0;//rnd.Next(5, 10);
+            int mix_counter = 10;//rnd.Next(5, 10);
 
             Print(Table, Table);
             int x = 0, y = 0, gdzie = 0, tmp; // pozycja zera
@@ -141,7 +141,7 @@ namespace Laboratory1
                 }
 
                 //Console.Write("\n");
-                //Print(print_tmp, Table);
+                Print(print_tmp, Table);
             }
 
             #endregion //Mieszanie puzzli
@@ -281,13 +281,12 @@ namespace Laboratory1
                     if (tab_before[i,j] != tab_after[i,j])
                     {
                         Console.BackgroundColor = ConsoleColor.DarkCyan;
-                        Console.Write(tab_after[i, j]);
+                        Console.Write("   {0:0}",tab_after[i, j]);
                         Console.BackgroundColor = ConsoleColor.Black;
-                        Console.Write(" ");
                     }
                     else
                     {
-                        Console.Write(tab_after[i, j] + " ");
+                        Console.Write("   {0:0}", tab_after[i, j]);
                     }
                     
                     if ((j + 1) % puzzleSize == 0) Console.Write("\n");
