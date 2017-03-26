@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
@@ -8,6 +10,8 @@ namespace Laboratory1
 {
     class PuzzleState : State
     {
+        public List<Heuristic_ways> Heuristic_vetor = new List<Heuristic_ways>();
+
         private static double infinity = 9999;
 
         private static int puzzleSize;
@@ -27,8 +31,28 @@ namespace Laboratory1
 
         public override double ComputeHeuristicGrade()
         {
-
             return 0;
+        }
+
+        public double ComputeHeuristicGrade(int[,] tab)
+        {
+            /// <summary>
+            /// Heurystyka "Misplaced tiles"
+            /// Zlicza liczbe pól nie na zwoim miejscu przy pominięciu zera.
+            ///</summary>
+
+            int counter = 0;
+            int value = 0;
+            for (int i = 0; i < puzzleSize; i++)
+            {
+                for (int j = 0; j < puzzleSize; j++)
+                {
+                    if (tab[i, j] != value && tab[i, j] != 0) counter++;
+                    value++;
+                }
+            }
+
+            return counter;
         }
 
 
@@ -52,7 +76,7 @@ namespace Laboratory1
             #region Mieszanie puzzli
             Random rnd = new Random();
 
-            int mix_counter = 100;//rnd.Next(5, 10);
+            int mix_counter = 0;//rnd.Next(5, 10);
 
             Print(Table, Table);
             int x = 0, y = 0, gdzie = 0, tmp; // pozycja zera
@@ -132,6 +156,104 @@ namespace Laboratory1
                 }
             }
 
+            #region Generowanie vektora heurystyk
+
+            Heuristic_ways htmp;
+
+            int x_tmp = x;
+            int y_tmp = y;
+
+            #region gora
+            htmp = new Heuristic_ways(1);
+            htmp.Table = (int[,])Table.Clone();
+
+            if ((x_tmp - 1) >= 0 && (x_tmp - 1) < puzzleSize)
+            {
+                tmp = htmp.Table[x_tmp, y];
+                htmp.Table[x_tmp, y] = htmp.Table[x_tmp - 1, y];
+                htmp.Table[x_tmp - 1, y] = tmp;
+                x--;
+
+                htmp.h = ComputeHeuristicGrade(htmp.Table);
+            }
+            else
+            {
+                htmp.h = infinity;
+            }
+
+            Heuristic_vetor.Add(htmp);
+            #endregion //gora
+
+            #region dol
+            x_tmp = x;
+            y_tmp = y;
+            htmp = new Heuristic_ways(2);
+            htmp.Table = (int[,])Table.Clone();
+
+            if ((x_tmp + 1) >= 0 && (x_tmp + 1) < puzzleSize)
+            {
+                tmp = htmp.Table[x_tmp, y_tmp];
+                htmp.Table[x_tmp, y_tmp] = htmp.Table[x_tmp + 1, y_tmp];
+                htmp.Table[x_tmp + 1, y_tmp] = tmp;
+                x++;
+
+                htmp.h = ComputeHeuristicGrade(htmp.Table);
+            }
+            else
+            {
+                htmp.h = infinity;
+            }
+
+            Heuristic_vetor.Add(htmp);
+            #endregion //dol
+
+            #region lewo
+            x_tmp = x;
+            y_tmp = y;
+            htmp = new Heuristic_ways(3);
+            htmp.Table = (int[,])Table.Clone();
+
+            if ((y - 1) >= 0 && (y - 1) < puzzleSize)
+            {
+                tmp = htmp.Table[x_tmp, y_tmp];
+                htmp.Table[x_tmp, y_tmp] = htmp.Table[x_tmp, y_tmp - 1];
+                htmp.Table[x_tmp, y_tmp - 1] = tmp;
+                y_tmp--;
+
+                htmp.h = ComputeHeuristicGrade(htmp.Table);
+            }
+            else
+            {
+                htmp.h = infinity;
+            }
+
+            Heuristic_vetor.Add(htmp);
+            #endregion //lewo
+
+            #region prawo
+            x_tmp = x;
+            y_tmp = y;
+            htmp = new Heuristic_ways(4);
+            htmp.Table = (int[,])Table.Clone();
+
+            if ((y_tmp + 1) >= 0 && (y_tmp + 1) < puzzleSize)
+            {
+                tmp = htmp.Table[x_tmp, y_tmp];
+                htmp.Table[x_tmp, y_tmp] = htmp.Table[x_tmp, y_tmp + 1];
+                htmp.Table[x_tmp, y_tmp + 1] = tmp;
+                y_tmp++;
+
+                htmp.h = ComputeHeuristicGrade(htmp.Table);
+            }
+            else
+            {
+                htmp.h = infinity;
+            }
+
+            Heuristic_vetor.Add(htmp);
+            #endregion //prawo
+
+            #endregion //Generowanie vektora heurystyk
 
             this.h = infinity;
         }
@@ -140,7 +262,7 @@ namespace Laboratory1
         {
             // ciało konstruktora
 
-            this.h = 0;
+            this.h = ComputeHeuristicGrade(Table);
 
             //W stanie w ktorym przybyliśmy droga jest o jeden większa niż w rodzicu
 

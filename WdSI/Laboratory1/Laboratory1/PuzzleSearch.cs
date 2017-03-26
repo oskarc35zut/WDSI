@@ -12,12 +12,32 @@ namespace Laboratory1
         {
             PuzzleState state = (PuzzleState)parent;
 
-            
+            PuzzleState child = new PuzzleState(state);
+            parent.Children.Add(child);
+
+
+            // poszukiwanie wolnego pola
+            //for (int i = 0; i < SudokuState.GRID_SIZE; ++i)
+            //{
+            //     for (int j = 0; j < SudokuState.GRID_SIZE; ++j)
+            //    {
+            //         if (state.Table[i, j] == 0)
+            //        {
+            //             // wstawianie kolejnych potomkow w wolne pole
+            //            for (int k = 1; k < SudokuState.GRID_SIZE + 1; ++k)
+            //            {
+            //                 SudokuState child = new SudokuState(state, k, i, j);
+            //                 parent.Children.Add(child);
+            //                 }
+            //             break;
+            //             }
+            //         }
+            //    }
 
 
 
 
- 
+
 
         }
 

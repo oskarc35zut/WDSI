@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="AStarSearch.cs" />
     <None Include="codelab.cs" />
+    <Compile Include="Heuristic_ways.cs" />
     <Compile Include="IState.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
