@@ -626,3 +626,103 @@ string chose = "sudoku";
 
                     break;
             }
+
+
+        #region Generowanie vektora heurystyk
+
+            Heuristic_ways htmp;
+
+int x_tmp = x;
+int y_tmp = y;
+
+#region gora
+htmp = new Heuristic_ways(1);
+htmp.Table = (int[,]) Table.Clone();
+
+            if ((x_tmp - 1) >= 0 && (x_tmp - 1) < puzzleSize)
+            {
+                tmp = htmp.Table[x_tmp, y];
+                htmp.Table[x_tmp, y] = htmp.Table[x_tmp - 1, y];
+                htmp.Table[x_tmp - 1, y] = tmp;
+                x--;
+
+                htmp.h = ComputeHeuristicGrade(htmp.Table);
+            }
+            else
+            {
+                htmp.h = infinity;
+            }
+
+            Heuristic_vetor.Add(htmp);
+            #endregion //gora
+
+            #region dol
+            x_tmp = x;
+            y_tmp = y;
+            htmp = new Heuristic_ways(2);
+htmp.Table = (int[,]) Table.Clone();
+
+            if ((x_tmp + 1) >= 0 && (x_tmp + 1) < puzzleSize)
+            {
+                tmp = htmp.Table[x_tmp, y_tmp];
+                htmp.Table[x_tmp, y_tmp] = htmp.Table[x_tmp + 1, y_tmp];
+                htmp.Table[x_tmp + 1, y_tmp] = tmp;
+                x++;
+
+                htmp.h = ComputeHeuristicGrade(htmp.Table);
+            }
+            else
+            {
+                htmp.h = infinity;
+            }
+
+            Heuristic_vetor.Add(htmp);
+            #endregion //dol
+
+            #region lewo
+            x_tmp = x;
+            y_tmp = y;
+            htmp = new Heuristic_ways(3);
+htmp.Table = (int[,]) Table.Clone();
+
+            if ((y - 1) >= 0 && (y - 1) < puzzleSize)
+            {
+                tmp = htmp.Table[x_tmp, y_tmp];
+                htmp.Table[x_tmp, y_tmp] = htmp.Table[x_tmp, y_tmp - 1];
+                htmp.Table[x_tmp, y_tmp - 1] = tmp;
+                y_tmp--;
+
+                htmp.h = ComputeHeuristicGrade(htmp.Table);
+            }
+            else
+            {
+                htmp.h = infinity;
+            }
+
+            Heuristic_vetor.Add(htmp);
+            #endregion //lewo
+
+            #region prawo
+            x_tmp = x;
+            y_tmp = y;
+            htmp = new Heuristic_ways(4);
+htmp.Table = (int[,]) Table.Clone();
+
+            if ((y_tmp + 1) >= 0 && (y_tmp + 1) < puzzleSize)
+            {
+                tmp = htmp.Table[x_tmp, y_tmp];
+                htmp.Table[x_tmp, y_tmp] = htmp.Table[x_tmp, y_tmp + 1];
+                htmp.Table[x_tmp, y_tmp + 1] = tmp;
+                y_tmp++;
+
+                htmp.h = ComputeHeuristicGrade(htmp.Table);
+            }
+            else
+            {
+                htmp.h = infinity;
+            }
+
+            Heuristic_vetor.Add(htmp);
+            #endregion //prawo
+
+            #endregion //Generowanie vektora heurystyk

@@ -39,7 +39,7 @@ namespace Laboratory1 {
             DialogResult dialogResult_puzzle = MessageBox.Show("A puzzle? ( ͡° ͜ʖ ͡°)", "", MessageBoxButtons.YesNo);
             if (dialogResult_puzzle == DialogResult.Yes)
             {
-                int puzzlesize = 4;
+                int puzzlesize = 3;
 
                 PuzzleState.start(puzzlesize);
             }

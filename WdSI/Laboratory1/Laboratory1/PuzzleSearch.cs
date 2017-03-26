@@ -7,13 +7,39 @@ namespace Laboratory1
 {
     class PuzzleSearch : AStarSearch
     {
+        
+
         public PuzzleSearch(PuzzleState state) : base(state, true, true) { }
         protected override void buildChildren(IState parent)
         {
             PuzzleState state = (PuzzleState)parent;
 
-            PuzzleState child = new PuzzleState(state);
-            parent.Children.Add(child);
+            foreach (string id in state.id_list)
+            { 
+                foreach (Heuristic_ways obj in state.Heuristic_vetor)
+                {
+                    if (obj.ID == id)
+                    {
+                        obj.h = PuzzleState.infinity;
+                    }
+                }
+            }
+
+            for (int i = 1; i <= PuzzleState.PuzzleSize+state.G; i++)
+            {
+                foreach (Heuristic_ways obj in state.Heuristic_vetor)
+                {
+
+                    if (obj.F == i)
+                    {
+                        PuzzleState child = new PuzzleState(state, obj);
+                        parent.Children.Add(child);
+                    }
+                }
+                //break;
+            }
+            //PuzzleState child = new PuzzleState();
+            //parent.Children.Add(child);
 
 
             // poszukiwanie wolnego pola

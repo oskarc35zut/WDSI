@@ -10,11 +10,19 @@ namespace Laboratory1
 {
     class PuzzleState : State
     {
+#region zmienne
         public List<Heuristic_ways> Heuristic_vetor = new List<Heuristic_ways>();
+        public List<string> id_list = new List<string>();
 
-        private static double infinity = 9999;
+        public static double infinity = 9999;
+        private int x;
+        private int y;
 
         private static int puzzleSize;
+        public static int PuzzleSize
+        {
+            get { return puzzleSize; }
+        }
         private string id;
         public override string ID
         {
@@ -28,6 +36,7 @@ namespace Laboratory1
             get { return this.table; }
             set { this.table = value; }
         }
+#endregion //zmienne
 
         public override double ComputeHeuristicGrade()
         {
@@ -56,7 +65,6 @@ namespace Laboratory1
         }
 
 
-
         public PuzzleState() : base()
         {
             #region gerowanie ułożonej tablcy 
@@ -73,10 +81,11 @@ namespace Laboratory1
             }
             #endregion //gerowanie ułożonej tablcy 
 
+            int mix_counter = 3;//rnd.Next(5, 10); //ilosc mieszan
             #region Mieszanie puzzli
             Random rnd = new Random();
 
-            int mix_counter = 10;//rnd.Next(5, 10);
+            //int mix_counter = 10;//rnd.Next(5, 10);
 
             Print(Table, Table);
             int x = 0, y = 0, gdzie = 0, tmp; // pozycja zera
@@ -141,7 +150,7 @@ namespace Laboratory1
                 }
 
                 //Console.Write("\n");
-                Print(print_tmp, Table);
+                //Print(print_tmp, Table);
             }
 
             #endregion //Mieszanie puzzli
@@ -156,12 +165,20 @@ namespace Laboratory1
                 }
             }
 
+            Heuristic_vector(x, y);
+
+            this.h = infinity;
+        }
+
+        public void Heuristic_vector(int x, int y)
+        {
             #region Generowanie vektora heurystyk
 
             Heuristic_ways htmp;
 
             int x_tmp = x;
             int y_tmp = y;
+            int tmp;
 
             #region gora
             htmp = new Heuristic_ways(1);
@@ -172,8 +189,8 @@ namespace Laboratory1
                 tmp = htmp.Table[x_tmp, y];
                 htmp.Table[x_tmp, y] = htmp.Table[x_tmp - 1, y];
                 htmp.Table[x_tmp - 1, y] = tmp;
-                x--;
-
+                x_tmp--;
+                
                 htmp.h = ComputeHeuristicGrade(htmp.Table);
             }
             else
@@ -181,6 +198,9 @@ namespace Laboratory1
                 htmp.h = infinity;
             }
 
+            htmp.x = x_tmp;
+            htmp.y = y_tmp;
+            htmp.id_generate();
             Heuristic_vetor.Add(htmp);
             #endregion //gora
 
@@ -195,7 +215,7 @@ namespace Laboratory1
                 tmp = htmp.Table[x_tmp, y_tmp];
                 htmp.Table[x_tmp, y_tmp] = htmp.Table[x_tmp + 1, y_tmp];
                 htmp.Table[x_tmp + 1, y_tmp] = tmp;
-                x++;
+                x_tmp++;
 
                 htmp.h = ComputeHeuristicGrade(htmp.Table);
             }
@@ -204,6 +224,9 @@ namespace Laboratory1
                 htmp.h = infinity;
             }
 
+            htmp.x = x_tmp;
+            htmp.y = y_tmp;
+            htmp.id_generate();
             Heuristic_vetor.Add(htmp);
             #endregion //dol
 
@@ -227,6 +250,9 @@ namespace Laboratory1
                 htmp.h = infinity;
             }
 
+            htmp.x = x_tmp;
+            htmp.y = y_tmp;
+            htmp.id_generate();
             Heuristic_vetor.Add(htmp);
             #endregion //lewo
 
@@ -250,22 +276,32 @@ namespace Laboratory1
                 htmp.h = infinity;
             }
 
+            htmp.x = x_tmp;
+            htmp.y = y_tmp;
+            htmp.id_generate();
             Heuristic_vetor.Add(htmp);
             #endregion //prawo
 
             #endregion //Generowanie vektora heurystyk
-
-            this.h = infinity;
         }
 
-        public PuzzleState(PuzzleState parent) : base(parent)
+        public PuzzleState(PuzzleState parent, Heuristic_ways tmp) : base(parent)
         {
+            this.table = new int[PuzzleSize, PuzzleSize];
+
+            Array.Copy(tmp.Table, this.table, this.table.Length);
             // ciało konstruktora
 
-            this.h = ComputeHeuristicGrade(Table);
+            this.id = tmp.ID;
+            id_list.Add(this.id);
+
+            this.x = tmp.x;
+            this.y = tmp.y;
+
+            Heuristic_vector(x, y);
+            this.h = tmp.h;
 
             //W stanie w ktorym przybyliśmy droga jest o jeden większa niż w rodzicu
-
             this.g = parent.g + 1;
         }
 
@@ -281,12 +317,12 @@ namespace Laboratory1
                     if (tab_before[i,j] != tab_after[i,j])
                     {
                         Console.BackgroundColor = ConsoleColor.DarkCyan;
-                        Console.Write("   {0:0}",tab_after[i, j]);
+                        Console.Write("   {0}",tab_after[i, j]);
                         Console.BackgroundColor = ConsoleColor.Black;
                     }
                     else
                     {
-                        Console.Write("   {0:0}", tab_after[i, j]);
+                        Console.Write("   {0}", tab_after[i, j]);
                     }
                     
                     if ((j + 1) % puzzleSize == 0) Console.Write("\n");
