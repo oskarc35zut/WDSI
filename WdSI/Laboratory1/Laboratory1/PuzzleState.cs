@@ -43,6 +43,27 @@ namespace Laboratory1
             return 0;
         }
 
+        public double ComputeHeuristicGrade_Manhattan(int[,] tab)
+        {
+            /// <summary>
+            /// Heurystyka "Misplaced tiles"
+            /// Zlicza liczbe pól nie na zwoim miejscu przy pominięciu zera.
+            ///</summary>
+
+            int counter = 0;
+            int value = 0;
+            for (int i = 0; i < puzzleSize; i++)
+            {
+                for (int j = 0; j < puzzleSize; j++)
+                {
+                    if (tab[i, j] != value && tab[i, j] != 0) counter++;
+                    value++;
+                }
+            }
+
+            return counter;
+        }
+
         public double ComputeHeuristicGrade(int[,] tab)
         {
             /// <summary>

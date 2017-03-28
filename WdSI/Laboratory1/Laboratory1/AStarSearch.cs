@@ -186,7 +186,24 @@ namespace Laboratory1 {
                     this.open2.Remove(currentState.ID);
                 }
             }
+            foreach (KeyValuePair<IState, string> kvp in this.open)
+            {
+                if(Program.iscloseed)
+                { 
+                Console.WriteLine(kvp.Value);
+                Console.WriteLine(kvp.Key);
+                }
+            }
+            foreach (KeyValuePair<string, IState > kvp in this.closed)
+            {
+                if (Program.isopen)
+                {
+                    Console.WriteLine(kvp.Value);
+                    Console.WriteLine(kvp.Key);
+                }
+            }
         }
+
 
 
         #endregion //end Public Methods

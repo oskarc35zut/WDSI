@@ -8,7 +8,7 @@ namespace Laboratory1 {
     class Program {
         static void Main(string[] args)
         {
-            Console.BufferHeight = 1000;
+            Console.BufferHeight = 20000;
 
             DialogResult dialogResult_sudoku = MessageBox.Show("Chesz zobaczyć sudoku? ( ͡° ͜ʖ ͡°)", "", MessageBoxButtons.YesNo);
             if (dialogResult_sudoku == DialogResult.Yes)
@@ -49,6 +49,9 @@ namespace Laboratory1 {
 
            
         }
+
+        public static bool isopen = true;
+        public static bool iscloseed = false;
     }
     
 }
