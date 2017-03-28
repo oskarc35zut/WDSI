@@ -22,7 +22,6 @@ namespace Laboratory1
         public static int PuzzleSize
         {
             get { return puzzleSize; }
-            set { puzzleSize = value; }
         }
         private string id;
         public override string ID
@@ -44,6 +43,26 @@ namespace Laboratory1
             return 0;
         }
 
+        public double ComputeHeuristicGrade_Manhattan(int[,] tab)
+        {
+            /// <summary>
+            /// Heurystyka "Misplaced tiles"
+            /// Zlicza liczbe pól nie na zwoim miejscu przy pominięciu zera.
+            ///</summary>
+
+            int counter = 0;
+            int value = 0;
+            for (int i = 0; i < puzzleSize; i++)
+            {
+                for (int j = 0; j < puzzleSize; j++)
+                {
+                    if (tab[i, j] != value && tab[i, j] != 0) counter++;
+                    value++;
+                }
+            }
+
+            return counter;
+        }
 
         public virtual double ComputeHeuristicGrade(int[,] tab)
         {
@@ -69,125 +88,111 @@ namespace Laboratory1
 
         public PuzzleState() : base()
         {
-            //#region gerowanie ułożonej tablcy 
-            //this.table = new int[puzzleSize, puzzleSize];
-
-            //int licznik = 0;
-            //for (int i = 0; i < puzzleSize; i++)
-            //{
-            //    for (int j = 0; j < puzzleSize; j++)
-            //    {
-            //        this.table[i, j] = licznik;
-            //        licznik++;
-            //    }
-            //}
-
-
-            //#endregion //gerowanie ułożonej tablcy 
-
-            //int mix_counter = 1000;//rnd.Next(5, 10); //ilosc mieszan
-            //#region Mieszanie puzzli
-            //Random rnd = new Random();
-
-            ////int mix_counter = 10;//rnd.Next(5, 10);
-
-            //Print(Table, Table);
-            //int x = 0, y = 0, gdzie = 0, tmp; // pozycja zera
-            //bool done;
-            //int[,] print_tmp = new int[puzzleSize, puzzleSize]; //tablica do podgladu kroków mieszania
-
-            ////while ((mix_counter--) != 0)
-            ////{
-            ////    print_tmp = (int[,])Table.Clone();
-            ////    done = false;
-            ////    while (!done)
-            ////    {
-
-
-
-            ////        gdzie = rnd.Next(1, 5);
-            ////        //Console.WriteLine(gdzie);
-            ////        switch (gdzie)
-            ////        {
-            ////            case 1:
-            ////                if ((x - 1) >= 0 && (x - 1) < puzzleSize)
-            ////                {
-            ////                    tmp = Table[x, y];
-            ////                    Table[x, y] = Table[x - 1, y];
-            ////                    Table[x - 1, y] = tmp;
-            ////                    x--;
-            ////                    done = true;
-            ////                }
-            ////                break;
-            ////            case 2:
-            ////                if ((x + 1) >= 0 && (x + 1) < puzzleSize)
-            ////                {
-            ////                    tmp = Table[x, y];
-            ////                    Table[x, y] = Table[x + 1, y];
-            ////                    Table[x + 1, y] = tmp;
-            ////                    x++;
-            ////                    done = true;
-            ////                }
-            ////                break;
-            ////            case 3:
-            ////                if ((y - 1) >= 0 && (y - 1) < puzzleSize)
-            ////                {
-            ////                    tmp = Table[x, y];
-            ////                    Table[x, y] = Table[x, y - 1];
-            ////                    Table[x, y - 1] = tmp;
-            ////                    y--;
-            ////                    done = true;
-            ////                }
-            ////                break;
-            ////            case 4:
-            ////                if ((y + 1) >= 0 && (y + 1) < puzzleSize)
-            ////                {
-            ////                    tmp = Table[x, y];
-            ////                    Table[x, y] = Table[x, y + 1];
-            ////                    Table[x, y + 1] = tmp;
-            ////                    y++;
-            ////                    done = true;
-            ////                }
-            ////                break;
-            ////        }
-
-            ////    }
-
-            ////    //Console.Write("\n");
-            ////    //Print(print_tmp, Table);
-            ////}
-
-            //int[] tab_str = new int[] { 1, 2, 5, 3, 4, 8, 6, 0, 7 };
-            //licznik = 0;
-            //for (int i = 0; i < puzzleSize; i++)
-            //{
-            //    for (int j = 0; j < puzzleSize; j++)
-            //    {
-            //        this.table[i, j] = (int)tab_str[licznik];
-            //        licznik++;
-            //    }
-            //}
-
-
-            //Console.WriteLine("Pomieszane puzle ##############");
-            //Print(Table, Table);
-            //Console.WriteLine("///////////////##############");
-
-            //#endregion //Mieszanie puzzli
-
+            #region gerowanie ułożonej tablcy 
             this.table = new int[puzzleSize, puzzleSize];
-            this.table = Laboratory1.Program.Table;
 
-            //Generowanie id z aktualnego stanu tablicy
+            int licznik = 0;
             for (int i = 0; i < puzzleSize; i++)
             {
                 for (int j = 0; j < puzzleSize; j++)
                 {
-                    this.table[i, j] = Laboratory1.Program.Table[i, j];
-                    id += this.table[i, j];
-
+                    this.table[i, j] = licznik;
+                    licznik++;
                 }
             }
+
+
+            #endregion //gerowanie ułożonej tablcy 
+
+            int mix_counter = 1000;//rnd.Next(5, 10); //ilosc mieszan
+            #region Mieszanie puzzli
+            Random rnd = new Random();
+
+            //int mix_counter = 10;//rnd.Next(5, 10);
+
+            Print(Table, Table);
+            int x = 0, y = 0, gdzie = 0, tmp; // pozycja zera
+            bool done;
+            int[,] print_tmp = new int[puzzleSize, puzzleSize]; //tablica do podgladu kroków mieszania
+
+            //while ((mix_counter--) != 0)
+            //{
+            //    print_tmp = (int[,])Table.Clone();
+            //    done = false;
+            //    while (!done)
+            //    {
+
+
+
+            //        gdzie = rnd.Next(1, 5);
+            //        //Console.WriteLine(gdzie);
+            //        switch (gdzie)
+            //        {
+            //            case 1:
+            //                if ((x - 1) >= 0 && (x - 1) < puzzleSize)
+            //                {
+            //                    tmp = Table[x, y];
+            //                    Table[x, y] = Table[x - 1, y];
+            //                    Table[x - 1, y] = tmp;
+            //                    x--;
+            //                    done = true;
+            //                }
+            //                break;
+            //            case 2:
+            //                if ((x + 1) >= 0 && (x + 1) < puzzleSize)
+            //                {
+            //                    tmp = Table[x, y];
+            //                    Table[x, y] = Table[x + 1, y];
+            //                    Table[x + 1, y] = tmp;
+            //                    x++;
+            //                    done = true;
+            //                }
+            //                break;
+            //            case 3:
+            //                if ((y - 1) >= 0 && (y - 1) < puzzleSize)
+            //                {
+            //                    tmp = Table[x, y];
+            //                    Table[x, y] = Table[x, y - 1];
+            //                    Table[x, y - 1] = tmp;
+            //                    y--;
+            //                    done = true;
+            //                }
+            //                break;
+            //            case 4:
+            //                if ((y + 1) >= 0 && (y + 1) < puzzleSize)
+            //                {
+            //                    tmp = Table[x, y];
+            //                    Table[x, y] = Table[x, y + 1];
+            //                    Table[x, y + 1] = tmp;
+            //                    y++;
+            //                    done = true;
+            //                }
+            //                break;
+            //        }
+
+            //    }
+
+            //    //Console.Write("\n");
+            //    //Print(print_tmp, Table);
+            //}
+
+            int[] tab_str = new int[] { 1, 2, 5, 3, 4, 8, 6, 0, 7 };
+            licznik = 0;
+            for (int i = 0; i < puzzleSize; i++)
+            {
+                for (int j = 0; j < puzzleSize; j++)
+                {
+                    this.table[i, j] = (int)tab_str[licznik];
+                    licznik++;
+                }
+            }
+
+
+            Console.WriteLine("Pomieszane puzle ##############");
+            Print(Table, Table);
+            Console.WriteLine("///////////////##############");
+
+            #endregion //Mieszanie puzzli
 
             //Generowanie id z aktualnego stanu tablicy
             for (int i = 0; i < puzzleSize; i++)
@@ -379,7 +384,7 @@ namespace Laboratory1
                     
                 }
             }
-            Console.WriteLine("\nAktualna wysokosc= " + this.G);
+            
             Console.Write("\n\n####\n");
         }
 

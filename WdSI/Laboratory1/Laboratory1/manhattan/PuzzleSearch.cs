@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Laboratory1
+namespace Laboratory1_m
 {
     class PuzzleSearch : AStarSearch
     {

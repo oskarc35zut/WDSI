@@ -8,7 +8,7 @@ namespace Laboratory1 {
     class Program {
         static void Main(string[] args)
         {
-            Console.BufferHeight = 20000;
+            Console.BufferHeight = 1000;
 
             DialogResult dialogResult_sudoku = MessageBox.Show("Chesz zobaczyć sudoku? ( ͡° ͜ʖ ͡°)", "", MessageBoxButtons.YesNo);
             if (dialogResult_sudoku == DialogResult.Yes)
@@ -41,17 +41,129 @@ namespace Laboratory1 {
             if (dialogResult_puzzle == DialogResult.Yes)
             {
                 int puzzlesize = 3;
+                PuzzleState.PuzzleSize = puzzlesize;
+                Laboratory1_m.PuzzleState.PuzzleSize = puzzlesize;
+                gen();
 
                 PuzzleState.start(puzzlesize);
+                Laboratory1_m.PuzzleState.start(puzzlesize);
+
                 Console.ReadLine();
 
             }
 
            
         }
-
-        public static bool isopen = true;
+ 
+        public static bool isopen = false;
         public static bool iscloseed = false;
+
+        #region smieci konieczne
+        static public int[,] Table = new int[PuzzleState.PuzzleSize, PuzzleState.PuzzleSize];
+        
+        static private void gen()
+        {
+            #region gerowanie ułożonej tablcy 
+            Table = new int[PuzzleState.PuzzleSize, PuzzleState.PuzzleSize];
+
+            int licznik = 0;
+            for (int i = 0; i < PuzzleState.PuzzleSize; i++)
+            {
+                for (int j = 0; j < PuzzleState.PuzzleSize; j++)
+                {
+                    Table[i, j] = licznik;
+                    licznik++;
+                }
+            }
+
+
+            #endregion //gerowanie ułożonej tablcy 
+
+            int mix_counter = 1000;//rnd.Next(5, 10); //ilosc mieszan
+            #region Mieszanie puzzli
+            Random rnd = new Random();
+
+            //int mix_counter = 10;//rnd.Next(5, 10);
+            int x = 0, y = 0, gdzie = 0, tmp; // pozycja zera
+            bool done;
+            int[,] print_tmp = new int[PuzzleState.PuzzleSize, PuzzleState.PuzzleSize]; //tablica do podgladu kroków mieszania
+
+            while ((mix_counter--) != 0)
+            {
+                print_tmp = (int[,])Table.Clone();
+                done = false;
+                while (!done)
+                {
+
+
+
+                    gdzie = rnd.Next(1, 5);
+                    //Console.WriteLine(gdzie);
+                    switch (gdzie)
+                    {
+                        case 1:
+                            if ((x - 1) >= 0 && (x - 1) < PuzzleState.PuzzleSize)
+                            {
+                                tmp = Table[x, y];
+                                Table[x, y] = Table[x - 1, y];
+                                Table[x - 1, y] = tmp;
+                                x--;
+                                done = true;
+                            }
+                            break;
+                        case 2:
+                            if ((x + 1) >= 0 && (x + 1) < PuzzleState.PuzzleSize)
+                            {
+                                tmp = Table[x, y];
+                                Table[x, y] = Table[x + 1, y];
+                                Table[x + 1, y] = tmp;
+                                x++;
+                                done = true;
+                            }
+                            break;
+                        case 3:
+                            if ((y - 1) >= 0 && (y - 1) < PuzzleState.PuzzleSize)
+                            {
+                                tmp = Table[x, y];
+                                Table[x, y] = Table[x, y - 1];
+                                Table[x, y - 1] = tmp;
+                                y--;
+                                done = true;
+                            }
+                            break;
+                        case 4:
+                            if ((y + 1) >= 0 && (y + 1) < PuzzleState.PuzzleSize)
+                            {
+                                tmp = Table[x, y];
+                                Table[x, y] = Table[x, y + 1];
+                                Table[x, y + 1] = tmp;
+                                y++;
+                                done = true;
+                            }
+                            break;
+
+                    }
+                    int[] tab_str = new int[] { 1, 2, 5, 3, 4, 8, 6, 0, 7 };
+                    licznik = 0;
+                    for (int i = 0; i < PuzzleState.PuzzleSize; i++)
+                    {
+                        for (int j = 0; j < PuzzleState.PuzzleSize; j++)
+                        {
+                            Table[i, j] = (int)tab_str[licznik];
+                            licznik++;
+                        }
+                    }
+
+
+                 
+
+                    #endregion //Mieszanie puzzli
+
+                }
+                
+            }
+        }
+        #endregion //smieci konieczne
     }
-    
+
 }
