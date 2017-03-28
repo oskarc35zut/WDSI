@@ -25,7 +25,10 @@ namespace Laboratory1
                 }
             }
 
-            for (int i = 1; i <= PuzzleState.PuzzleSize+state.G; i++)
+
+            bool isZero = false;		
+
+            for (int i = 0; i <= ((PuzzleState.PuzzleSize*PuzzleState.PuzzleSize)+state.G); i++)
             {
                 foreach (Heuristic_ways obj in state.Heuristic_vetor)
                 {
@@ -33,10 +36,17 @@ namespace Laboratory1
                     if (obj.F == i)
                     {
                         PuzzleState child = new PuzzleState(state, obj);
+                        if (child.H == 0)
+                        {
+                            //isZero = true;
+                        }
                         parent.Children.Add(child);
+                        //state.Print(state.Table, child.Table);
+                        
                     }
+                    if (isZero) break;
                 }
-                //break;
+                if (isZero) break;
             }
             //PuzzleState child = new PuzzleState();
             //parent.Children.Add(child);

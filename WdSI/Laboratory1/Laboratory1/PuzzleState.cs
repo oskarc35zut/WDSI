@@ -79,9 +79,11 @@ namespace Laboratory1
                     licznik++;
                 }
             }
+
+
             #endregion //gerowanie ułożonej tablcy 
 
-            int mix_counter = 3;//rnd.Next(5, 10); //ilosc mieszan
+            int mix_counter = 1000;//rnd.Next(5, 10); //ilosc mieszan
             #region Mieszanie puzzli
             Random rnd = new Random();
 
@@ -96,20 +98,20 @@ namespace Laboratory1
             {
                 print_tmp = (int[,])Table.Clone();
                 done = false;
-                while(!done)
+                while (!done)
                 {
 
-                   
+
 
                     gdzie = rnd.Next(1, 5);
                     //Console.WriteLine(gdzie);
-                       switch (gdzie)
+                    switch (gdzie)
                     {
                         case 1:
-                            if ((x-1) >= 0 && (x-1) < puzzleSize)
+                            if ((x - 1) >= 0 && (x - 1) < puzzleSize)
                             {
                                 tmp = Table[x, y];
-                                Table[x, y] = Table[x-1, y];
+                                Table[x, y] = Table[x - 1, y];
                                 Table[x - 1, y] = tmp;
                                 x--;
                                 done = true;
@@ -129,7 +131,7 @@ namespace Laboratory1
                             if ((y - 1) >= 0 && (y - 1) < puzzleSize)
                             {
                                 tmp = Table[x, y];
-                                Table[x, y] = Table[x , y - 1];
+                                Table[x, y] = Table[x, y - 1];
                                 Table[x, y - 1] = tmp;
                                 y--;
                                 done = true;
@@ -145,13 +147,29 @@ namespace Laboratory1
                                 done = true;
                             }
                             break;
-                    }   
+                    }
 
                 }
 
                 //Console.Write("\n");
                 //Print(print_tmp, Table);
             }
+
+            //int[] tab_str = new int[] { 1, 2, 5, 3, 4, 8, 6, 0, 7 };
+            //licznik = 0;
+            //for (int i = 0; i < puzzleSize; i++)
+            //{
+            //    for (int j = 0; j < puzzleSize; j++)
+            //    {
+            //        this.table[i, j] = (int)tab_str[licznik];
+            //        licznik++;
+            //    }
+            //}
+
+
+            Console.WriteLine("Pomieszane puzle ##############");
+            Print(Table, Table);
+            Console.WriteLine("///////////////##############");
 
             #endregion //Mieszanie puzzli
 
@@ -164,6 +182,22 @@ namespace Laboratory1
 
                 }
             }
+
+            #region Szukanie X Y
+
+            for (int i = 0; i < puzzleSize; i++)
+            {
+                for (int j = 0; j < puzzleSize; j++)
+                {
+                    if(Table[i,j] == 0)
+                    {
+                        x = i;
+                        y = j;
+                    }
+
+                }
+            }
+            #endregion //Szukanie X Y
 
             Heuristic_vector(x, y);
 
@@ -298,10 +332,10 @@ namespace Laboratory1
             this.x = tmp.x;
             this.y = tmp.y;
 
-            Heuristic_vector(x, y);
+            if (tmp.h != 0) Heuristic_vector(x, y);
             this.h = tmp.h;
 
-            //W stanie w ktorym przybyliśmy droga jest o jeden większa niż w rodzicu
+            //W stanie w ktorym jestesmy droga jest o jeden większa niż w rodzicu
             this.g = parent.g + 1;
         }
 

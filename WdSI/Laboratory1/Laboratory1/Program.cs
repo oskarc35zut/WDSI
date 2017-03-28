@@ -34,6 +34,7 @@ namespace Laboratory1 {
                 #endregion //test
 
                 SudokuState.start(sudokuPattern);
+                Console.ReadLine();
             }
 
             DialogResult dialogResult_puzzle = MessageBox.Show("A puzzle? ( ͡° ͜ʖ ͡°)", "", MessageBoxButtons.YesNo);
@@ -42,9 +43,11 @@ namespace Laboratory1 {
                 int puzzlesize = 3;
 
                 PuzzleState.start(puzzlesize);
+                Console.ReadLine();
+
             }
 
-            Console.ReadLine();
+           
         }
     }
     
