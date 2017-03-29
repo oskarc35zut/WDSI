@@ -163,16 +163,16 @@ namespace Laboratory1 {
                             break;
 
                     }
-                    int[] tab_str = new int[] { 1, 2, 5, 3, 4, 8, 6, 0, 7 };
-                    licznik = 0;
-                    for (int i = 0; i < PuzzleState.PuzzleSize; i++)
-                    {
-                        for (int j = 0; j < PuzzleState.PuzzleSize; j++)
-                        {
-                            Table[i, j] = (int)tab_str[licznik];
-                            licznik++;
-                        }
-                    }
+                    //int[] tab_str = new int[] { 1, 2, 5, 3, 4, 8, 6, 0, 7 };
+                    //licznik = 0;
+                    //for (int i = 0; i < PuzzleState.PuzzleSize; i++)
+                    //{
+                    //    for (int j = 0; j < PuzzleState.PuzzleSize; j++)
+                    //    {
+                    //        Table[i, j] = (int)tab_str[licznik];
+                    //        licznik++;
+                    //    }
+                    //}
 
 
                  
