@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace Laboratory1 {
     class Program {
@@ -45,8 +46,27 @@ namespace Laboratory1 {
                 Laboratory1_m.PuzzleState.PuzzleSize = puzzlesize;
                 gen();
 
-                //PuzzleState.start(puzzlesize);
+                Stopwatch stopWatch_tails = new Stopwatch();
+                stopWatch_tails.Start();
+                PuzzleState.start(puzzlesize);
+                stopWatch_tails.Stop();
+
+                Stopwatch stopWatch_man = new Stopwatch();
+                stopWatch_man.Start();
                 Laboratory1_m.PuzzleState.start(puzzlesize);
+                stopWatch_man.Stop();
+
+                TimeSpan t_search = stopWatch_tails.Elapsed;
+                string SearchTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                    t_search.Hours, t_search.Minutes, t_search.Seconds,
+                    t_search.Milliseconds / 10);
+                Console.WriteLine("Calkowity czas tails: " + SearchTime);
+
+                t_search = stopWatch_man.Elapsed;
+                SearchTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                t_search.Hours, t_search.Minutes, t_search.Seconds,
+                t_search.Milliseconds / 10);
+                Console.WriteLine("Calkowity czas man: " + SearchTime);
 
                 Console.ReadLine();
 
