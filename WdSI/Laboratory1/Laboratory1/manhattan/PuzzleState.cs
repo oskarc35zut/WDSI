@@ -81,12 +81,11 @@ namespace Laboratory1_m
                             {
                                 for (int yy = 0; yy < puzzleSize; yy++)
                                 {
-                                    if(pleace[i,j] == licznik)
+                                    if(tab[i,j] == pleace[xx, yy])
                                     {
-                                        x = Math.Abs(xx-i);
-                                        y = Math.Abs(yy-j);
+                                        x = Math.Abs((xx+1)-(i+1));
+                                        y = Math.Abs((yy+1)-(j+1));
                                         wynik += x + y;
-                                        break;
                                     }
                                     licznik++;
                                 }
