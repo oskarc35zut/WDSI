@@ -45,7 +45,7 @@ namespace Laboratory1 {
                 Laboratory1_m.PuzzleState.PuzzleSize = puzzlesize;
                 gen();
 
-                PuzzleState.start(puzzlesize);
+                //PuzzleState.start(puzzlesize);
                 Laboratory1_m.PuzzleState.start(puzzlesize);
 
                 Console.ReadLine();

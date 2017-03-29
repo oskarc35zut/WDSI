@@ -44,26 +44,7 @@ namespace Laboratory1_m
             return 0;
         }
 
-        public double ComputeHeuristicGrade_Manhattan(int[,] tab)
-        {
-            /// <summary>
-            /// Heurystyka "Misplaced tiles"
-            /// Zlicza liczbe pól nie na zwoim miejscu przy pominięciu zera.
-            ///</summary>
-
-            int counter = 0;
-            int value = 0;
-            for (int i = 0; i < puzzleSize; i++)
-            {
-                for (int j = 0; j < puzzleSize; j++)
-                {
-                    if (tab[i, j] != value && tab[i, j] != 0) counter++;
-                    value++;
-                }
-            }
-
-            return counter;
-        }
+        
 
         public virtual double ComputeHeuristicGrade(int[,] tab)
         {
@@ -72,18 +53,51 @@ namespace Laboratory1_m
             /// Zlicza liczbe pól nie na zwoim miejscu przy pominięciu zera.
             ///</summary>
 
-            int counter = 0;
-            int value = 0;
+            int[,] pleace = new int[puzzleSize, puzzleSize];
+
+            int licznik = 0;
             for (int i = 0; i < puzzleSize; i++)
             {
                 for (int j = 0; j < puzzleSize; j++)
                 {
-                    if (tab[i, j] != value && tab[i, j] != 0) counter++;
-                    value++;
+                    pleace[i, j] = licznik;
+                    licznik++;
                 }
             }
 
-            return counter;
+            double wynik = 0;
+            int x = 0, y = 0;
+            
+            for (int i = 0; i < puzzleSize; i++)
+            {
+                for (int j = 0; j < puzzleSize; j++)
+                {
+                    if(tab[i,j] !=0)
+                    {
+                        if (tab[i, j] != pleace[i,j])
+                        {
+                            licznik = 0;
+                            for (int xx = 0; xx < puzzleSize; xx++)
+                            {
+                                for (int yy = 0; yy < puzzleSize; yy++)
+                                {
+                                    if(pleace[i,j] == licznik)
+                                    {
+                                        x = Math.Abs(xx-i);
+                                        y = Math.Abs(yy-j);
+                                        wynik += x + y;
+                                        break;
+                                    }
+                                    licznik++;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            return wynik;
         }
 
 
