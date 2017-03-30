@@ -28,7 +28,7 @@ namespace Laboratory1_m
 
             bool isZero = false;		
 
-            for (int i = 0; i <= PuzzleState.infinity; i++)
+            for (int i = 0; i <= (PuzzleState.PuzzleSize* PuzzleState.PuzzleSize* PuzzleState.PuzzleSize + state.G); i++)
             {
                 foreach (Heuristic_ways obj in state.Heuristic_vetor)
                 {

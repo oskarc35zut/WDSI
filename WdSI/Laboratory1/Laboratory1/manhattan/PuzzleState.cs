@@ -14,7 +14,7 @@ namespace Laboratory1_m
         public List<Heuristic_ways> Heuristic_vetor = new List<Heuristic_ways>();
         public List<string> id_list = new List<string>();
 
-        public static double infinity = 9999;
+        public static double infinity = 999999;
         private int x;
         private int y;
 
@@ -46,13 +46,31 @@ namespace Laboratory1_m
 
         
 
-        public virtual double ComputeHeuristicGrade(int[,] tab)
+        public double ComputeHeuristicGrade(int[,] tab)
         {
             /// <summary>
-            /// Heurystyka "Misplaced tiles"
-            /// Zlicza liczbe pól nie na zwoim miejscu przy pominięciu zera.
+            /// Heurystyka "Manhattan"
+            /// Suma odległosci w metryce Manhattan poszczególnych
+            /// pól od ich miejsc docelowych(z pominieciem pola ‘0’ w zliczaniu).
             ///</summary>
 
+            #region rozwiazanie najpoprawnijsze 
+
+            double hSum = 0;
+            for (int i = 0; i < puzzleSize; i++)
+            {
+                for (int j = 0; j < puzzleSize; j++)
+                {
+                    hSum += Math.Abs(i - (tab[i, j] / puzzleSize)) + Math.Abs(j - (tab[i, j] % puzzleSize));
+                }
+            }
+            return hSum;
+
+            #endregion //rozwiazanie najpoprawnijsze
+
+
+
+            #region rozwiazanie alternatywne
             int[,] pleace = new int[puzzleSize, puzzleSize];
 
             int licznik = 0;
@@ -97,11 +115,14 @@ namespace Laboratory1_m
 
 
             return wynik;
+            #endregion //rozwiazanie alternatywne
         }
 
 
         public PuzzleState() : base()
         {
+            infinity += PuzzleState.PuzzleSize * PuzzleState.PuzzleSize * PuzzleState.PuzzleSize;
+
             this.table = new int[puzzleSize,puzzleSize];
             this.table = Laboratory1.Program.Table;
 
