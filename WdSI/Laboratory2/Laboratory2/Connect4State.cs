@@ -14,6 +14,13 @@ namespace Laboratory2
             get { return Connect4State.size; }
         }
 
+        private static int howdeep;
+
+        public static int Howdeep
+        {
+            get { return Connect4State.howdeep; }
+        }
+
         int[,] table;
 
         int[,] Table
@@ -32,10 +39,12 @@ namespace Laboratory2
         public override double ComputeHeuristicGrade()
         {
             throw new NotImplementedException();
-        }
-        public Connect4State(int size) : base() //konstruktor inicjujący
+        }
+
+        public Connect4State(int size, int deep) : base() //konstruktor inicjujący
         {
             Connect4State.size = size;
+            Connect4State.howdeep = deep;
 
             table = new int[Size, Size];
 
@@ -62,7 +71,7 @@ namespace Laboratory2
         {
             // reszta implementacji
 
-            // ustawienie stringa identyfikujacego stan .
+            // ustawienie stringa identyfikujacego stan.
             //id builder
             for (int i = 0; i < Size; i++)
             {
