@@ -23,7 +23,7 @@ namespace Laboratory2
 
         int[,] table;
 
-        int[,] Table
+        public int[,] Table
         {
             get { return this.table;  }
             set { this.table = value; }
