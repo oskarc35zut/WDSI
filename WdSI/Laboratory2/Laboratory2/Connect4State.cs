@@ -178,7 +178,7 @@ namespace Laboratory2
             }
         }
 
-        public static int GetChoise(int[,]tab)
+        public static int GetChoise(int[,]tab, int who)
         {
             Print(tab);
 
@@ -186,7 +186,15 @@ namespace Laboratory2
             Console.SetCursorPosition(startmiddle, Heigth+1);
             for (int i = 0; i < Width; i++)
             {
-                Console.BackgroundColor = ConsoleColor.DarkBlue;
+                if (who%2 == 0)
+                {
+                    Console.BackgroundColor = ConsoleColor.DarkBlue;
+                }
+                else
+                {
+                    Console.BackgroundColor = ConsoleColor.DarkRed;
+                }
+                
                 Console.Write("O");
                 Console.BackgroundColor = ConsoleColor.Black;
             }
@@ -255,21 +263,14 @@ namespace Laboratory2
 
             
 
-            //kolor antywnego gracza
-            Console.SetCursorPosition(startmiddle, Heigth + 1);
-            for (int i = 0; i < Width; i++)
-            {
-                Console.BackgroundColor = ConsoleColor.DarkRed;
-                Console.Write("O");
-                Console.BackgroundColor = ConsoleColor.Black;
-            }
+            
             Console.SetCursorPosition(startmiddle, Heigth + 5);
             return choice;
         }
 
-        public static int ComputerChoice(int[,] tab, int who)
+        public static int[,] ComputerChoiceTable(int[,] tab, int who)
         {
-            int choise = 2;
+            
             bool isMaximizingPlayerFirst = who%2 == 0 ? true : false;//chuj wi czy to dobra kolejnosc
 
 
@@ -280,7 +281,7 @@ namespace Laboratory2
 
             
 
-            return choise;
+            return tab;
         }
 
         public static bool isWin(int who, int[,]tab)
