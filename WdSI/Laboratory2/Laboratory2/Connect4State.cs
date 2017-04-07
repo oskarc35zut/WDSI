@@ -99,7 +99,7 @@ namespace Laboratory2
             {
                 for (int j = 0; j < heigth; j++)
                 {
-                    id += Table[i, j];
+                    id += "" + Table[i, j];
                 }
             }
 
