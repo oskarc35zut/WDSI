@@ -182,22 +182,7 @@ namespace Laboratory2
         {
             Print(tab);
 
-            //kolor antywnego gracza
-            Console.SetCursorPosition(startmiddle, Heigth+1);
-            for (int i = 0; i < Width; i++)
-            {
-                if (who%2 == 0)
-                {
-                    Console.BackgroundColor = ConsoleColor.DarkBlue;
-                }
-                else
-                {
-                    Console.BackgroundColor = ConsoleColor.DarkRed;
-                }
-                
-                Console.Write("O");
-                Console.BackgroundColor = ConsoleColor.Black;
-            }
+            PlayerColorBar(who);
 
             string info1 = "<- -> - use left and right arrows to move";
             Console.SetCursorPosition(Console.BufferWidth/2-info1.Length/2, Heigth + 3);
@@ -268,9 +253,30 @@ namespace Laboratory2
             return choice;
         }
 
+        public static void PlayerColorBar(int who)
+        {
+            //kolor antywnego gracza
+            Console.SetCursorPosition(startmiddle, Heigth + 1);
+            for (int i = 0; i < Width; i++)
+            {
+                if (who % 2 != 0)
+                {
+                    Console.BackgroundColor = ConsoleColor.DarkBlue;
+                }
+                else
+                {
+                    Console.BackgroundColor = ConsoleColor.DarkRed;
+                }
+
+                Console.Write("O");
+                Console.BackgroundColor = ConsoleColor.Black;
+            }
+        }
+
         public static int[,] ComputerChoiceTable(int[,] tab, int who)
         {
-            
+            PlayerColorBar(who);
+
             bool isMaximizingPlayerFirst = who%2 == 0 ? true : false;//chuj wi czy to dobra kolejnosc
 
 
