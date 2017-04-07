@@ -41,8 +41,8 @@ namespace Laboratory2 {
                 if (Connect4State.isWin(who % 2 == 0 ? 1 : 2, table)) break;
                 who++;
 
-                table = Connect4State.Move(table, Connect4State.GetChoise(table), who % 2 == 0 ? 1 : 2);
-                //table = Connect4State.Move(table, Connect4State.ComputerChoice(table), who % 2 == 0 ? 1 : 2);
+                //table = Connect4State.Move(table, Connect4State.GetChoise(table), who % 2 == 0 ? 1 : 2);
+                //table = Connect4State.Move(table, Connect4State.ComputerChoice(table, who % 2 == 0 ? 1 : 2), who % 2 == 0 ? 1 : 2);
                 if (Connect4State.isWin(who % 2 == 0 ? 1 : 2, table)) break;
                 who++;
             }

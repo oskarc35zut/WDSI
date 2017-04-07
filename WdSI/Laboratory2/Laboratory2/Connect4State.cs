@@ -59,7 +59,7 @@ namespace Laboratory2
 
         public override double ComputeHeuristicGrade()
         {
-            return 0;
+            return Infinity;
         }
         
         static public void Init(int width, int heigth, int deep)
@@ -78,11 +78,12 @@ namespace Laboratory2
 
             // ustawienie stringa identyfikujacego stan.
             //id builder
-            for (int i = 0; i < width; i++)
+            
+            for (int i = 0; i < heigth; i++)
             {
-                for (int j = 0; j < heigth; j++)
+                for (int j = 0; j < width; j++)
                 {
-                    id += Table[i, j];
+                    id += "" + Table[i, j];
                 }
             }
         }
@@ -266,10 +267,18 @@ namespace Laboratory2
             return choice;
         }
 
-        public static int ComputerChoice(int[,] tab)
+        public static int ComputerChoice(int[,] tab, int who)
         {
-            int choise = 0;
+            int choise = 2;
+            bool isMaximizingPlayerFirst = who%2 == 0 ? true : false;//chuj wi czy to dobra kolejnosc
 
+
+            Connect4State startState = new Connect4State(tab);
+            Connect4Search searcher = new Connect4Search(startState, isMaximizingPlayerFirst, Howdeep);
+
+            searcher.DoSearch();
+
+            
 
             return choise;
         }
