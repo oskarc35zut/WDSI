@@ -3,11 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using static System.Windows.Forms.Keys;
+using System.Threading;
 
 namespace Laboratory2
 {
     class Connect4State : State
     {
+        #region Values
+
+        static private double infinity = 99999999;
+
+        static public double Infinity
+        {
+            get { return infinity; }
+        }
+
         private static int width;
 
         static int startmiddle;
@@ -45,42 +55,26 @@ namespace Laboratory2
         {
             get { return this.id; }
         }
+        #endregion //Values
 
         public override double ComputeHeuristicGrade()
         {
-            throw new NotImplementedException();
+            return 0;
         }
-
-        public Connect4State(int width, int heigth, int deep) : base() //konstruktor inicjujący
+        
+        static public void Init(int width, int heigth, int deep)
         {
             Connect4State.width = width;
             Connect4State.heigth = heigth;
             Connect4State.howdeep = deep;
-
-            table = new int[Heigth, Width];
-
-            //table 0 builder
-            for (int i = 0; i < Heigth; i++)
-            {
-                for (int j = 0; j < Width; j++)
-                {
-                    Table[i,j] = 0;
-                }
-            }
-
-            //id builder
-            id = "";
-            for (int i = 0; i < Width * Heigth; i++)
-            {
-                this.id += 0;
-            }
-
             startmiddle = (Console.BufferWidth / 2) - (Width / 2);
         }
 
-        public Connect4State(Connect4State parent, int[,] tab) : base(parent)
+        //konstruktor inicjujący
+        public Connect4State(int[,] tab) : base() 
         {
-            // reszta implementacji
+            table = new int[Heigth, Width];
+            Array.Copy(tab, this.table, tab.Length);
 
             // ustawienie stringa identyfikujacego stan.
             //id builder
@@ -88,9 +82,26 @@ namespace Laboratory2
             {
                 for (int j = 0; j < heigth; j++)
                 {
-                    id += tab[i, j];
+                    id += Table[i, j];
                 }
             }
+        }
+
+        public Connect4State(Connect4State parent, int[,] tab) : base(parent)
+        {
+            table = new int[Heigth, Width];
+            Array.Copy(tab, this.table, tab.Length);
+
+            // ustawienie stringa identyfikujacego stan.
+            //id builder
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < heigth; j++)
+                {
+                    id += Table[i, j];
+                }
+            }
+
             // ustawienie na ktorym poziomie w drzwie znajduje sie stan .
             this.depth = parent.depth + 0.5;
 
@@ -103,7 +114,6 @@ namespace Laboratory2
                 this.rootMove = parent.rootMove;
             }
         }
-
 
         public static void Print(int[,]tab)
         {
@@ -169,10 +179,6 @@ namespace Laboratory2
 
         public static int GetChoise(int[,]tab)
         {
-            //tab[2, 2] = 1;
-
-            //tab[2, 6] = 2;
-            //tab[2, 7] = 2;
             Print(tab);
 
             //kolor antywnego gracza
@@ -193,15 +199,15 @@ namespace Laboratory2
             //Console.SetCursorPosition(startmiddle, Heigth + 3);
 
 
-            int chose = 0;
-            ConsoleKey choise_key;
+            int choice = 0;
+            ConsoleKey choice_key;
             bool isChosen = true;
             while (isChosen)
             {
                 for (int i = 0; i < Heigth; i++)
                 {
-                    Console.SetCursorPosition(startmiddle + chose, 1 + i);
-                    if (tab[i, chose] == 0)
+                    Console.SetCursorPosition(startmiddle + choice, 1 + i);
+                    if (tab[i, choice] == 0)
                     {
                         Console.BackgroundColor = ConsoleColor.White;
                         Console.WriteLine(" ");
@@ -209,18 +215,32 @@ namespace Laboratory2
                     }
                 }
 
-                choise_key = Console.ReadKey().Key;
+                choice_key = Console.ReadKey().Key;
                 Print(tab);
-                switch (choise_key)
+                switch (choice_key)
                 {
                     case ConsoleKey.RightArrow:
-                        if (chose < Width-1) chose++;
+                        if (choice < Width-1) choice++;
                         break;
                     case ConsoleKey.LeftArrow:
-                        if (chose > 0) chose--;
+                        if (choice > 0) choice--;
                         break;
                     case ConsoleKey.Enter:
-                        isChosen = false;
+                        if(tab[0,choice] ==0)
+                        {
+                            isChosen = false;
+                        }
+                        else
+                        {
+                            Console.SetCursorPosition(Console.BufferWidth / 2 - Width/2 + choice, 0);
+                            Console.BackgroundColor = ConsoleColor.Red;
+                            Console.Write("X");
+                            Console.BackgroundColor = ConsoleColor.Black;
+
+                            Thread.Sleep(150);
+                            Console.SetCursorPosition(Console.BufferWidth / 2 - Width / 2 + choice, 0);
+                            Console.Write(" ");
+                        }
                         break;
                     default:
                         break;
@@ -243,9 +263,76 @@ namespace Laboratory2
                 Console.BackgroundColor = ConsoleColor.Black;
             }
             Console.SetCursorPosition(startmiddle, Heigth + 5);
-            return chose;
+            return choice;
         }
 
+        public static int ComputerChoice(int[,] tab)
+        {
+            int choise = 0;
 
+
+            return choise;
+        }
+
+        public static bool isWin(int who, int[,]tab)
+        {
+            int counterX, counterY, counterB, counterF;
+            for (int i = 0; i < Heigth; i++)
+            {
+                for (int j = 0; j < Width; j++)
+                {
+                    if (tab[i, j] == who)
+                    {
+                        counterX = 0; counterY = 0; counterB = 0; counterF = 0;
+
+                        for (int k = 0; k <= 3; k++){
+                            if (j+k >= 0 && j+k < Width){
+                               counterX = tab[i, j + k] == who ? counterX + 1 : counterX;
+                            }
+                        }
+
+                        for (int k = 0; k <= 3; k++){
+                            if (i + k >= 0 && i + k < Heigth){
+                                counterY = tab[i + k, j] == who ? counterY + 1 : counterY;
+                            }
+                        }
+
+                        for (int k = 0; k <= 3; k++){
+                            if (i + k >= 0 && i + k < Heigth && j + k >= 0 && j + k < Width){
+                                counterB = tab[i + k, j + k] == who ? counterB + 1 : counterB;
+                            }
+                        }
+
+                        for (int k = 0; k <= 3; k++){
+                            if (i + k >= 0 && i + k < Heigth && j - k >= 0 && j - k < Width){
+                                counterF = tab[i + k, j - k] == who ? counterF + 1 : counterF;
+                            }
+                        }
+
+                        if (counterX > 3 || counterY > 3 || counterB > 3 || counterF > 3){
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        public static int[,] Move(int[,] tab, int chose, int who)
+        {
+            for (int i = Heigth-1; i >= 0; i--)
+            {
+                if (chose >= 0 && chose < Width)
+                {
+                    if (tab[i, chose] == 0)
+                    {
+                        tab[i, chose] = who;
+                        break;
+                    }
+                }
+            }
+
+            return tab;
+        }
     }
 }
