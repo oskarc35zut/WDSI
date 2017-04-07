@@ -11,7 +11,7 @@ namespace Laboratory2
     {
         #region Values
 
-        static private double infinity = 99999999;
+        static private double infinity = (double.PositiveInfinity);
 
         static public double Infinity
         {
