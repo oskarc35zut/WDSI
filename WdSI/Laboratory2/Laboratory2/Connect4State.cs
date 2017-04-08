@@ -275,9 +275,10 @@ namespace Laboratory2
 
         public static int[,] ComputerChoiceTable(int[,] tab, int who)
         {
+            Print(tab);
             PlayerColorBar(who);
 
-            bool isMaximizingPlayerFirst = who%2 == 0 ? true : false;//chuj wi czy to dobra kolejnosc
+            bool isMaximizingPlayerFirst = who%2 != 0 ? true : false;//chuj wi czy to dobra kolejnosc
 
 
             Connect4State startState = new Connect4State(tab);
@@ -287,7 +288,7 @@ namespace Laboratory2
 
             
 
-            return tab;
+             return tab;
         }
 
         public static bool isWin(int who, int[,]tab)

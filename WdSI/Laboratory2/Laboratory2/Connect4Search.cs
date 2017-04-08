@@ -21,8 +21,8 @@ namespace Laboratory2
             int Heigth = Connect4State.Heigth;
             int Width = Connect4State.Width;
 
-            //kogo dzieci szukamy prawdopodobnie pomylona kolejnosc xD
-            int who = isMaximizingPlayerFirst ? 1 : 2;
+            //kogo dzieci szukamy
+            int who = 2;
 
             int[,] Move;
             for (int i = 0; i < Heigth; i++)
