@@ -55,7 +55,7 @@ namespace Laboratory2
 
         public override double ComputeHeuristicGrade()
         {
-            int H(int who)
+            Double H(int who)
             {
                 int [,]tab = new int[Heigth, Width];
                 Array.Copy(tab, this.Table, tab.Length);
@@ -74,9 +74,9 @@ namespace Laboratory2
                     {
                         if (tab[i,j] == who)
                         {
-                            for (int k = 1; k < 3; k++)
+                            for (int v = 0; v < i_v.Length; v++)
                             {
-                                for (int v = 0; v < i_v.Length; v++)
+                                for  (int k = 1; k < 3; k++)
                                 {
                                     if (v%2 == 0) Array.Copy(tab, this.Table, tab.Length);
 
@@ -106,7 +106,7 @@ namespace Laboratory2
 
 
 
-            return (double)(H(2));
+            return H(2);
         }
         
         static public void Init(int width, int heigth, int deep)
