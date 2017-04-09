@@ -11,12 +11,8 @@ namespace Laboratory2
     {
         #region Values
 
-        static private double infinity = (double.PositiveInfinity);
-
-        static public double Infinity
-        {
-            get { return infinity; }
-        }
+        static readonly double Infinity = double.PositiveInfinity;
+        static readonly double NInfinity = double.NegativeInfinity;
 
         private static int width;
 
@@ -59,7 +55,58 @@ namespace Laboratory2
 
         public override double ComputeHeuristicGrade()
         {
-            return Infinity;
+            int H(int who)
+            {
+                int [,]tab = new int[Heigth, Width];
+                Array.Copy(tab, this.Table, tab.Length);
+            
+                bool?[] i_v = new bool?[] { true, false, null, null, true, true, false, false };
+                bool?[] j_v = new bool?[] { null, null, true, false, true, false, true, false };
+
+                int counter = 0;
+
+                int n = 0;
+                int m = 0;
+
+                for (int i = 0; i < Heigth; i++)
+                {
+                    for (int j = 0; j < Width; j++)
+                    {
+                        if (tab[i,j] == who)
+                        {
+                            for (int k = 1; k < 3; k++)
+                            {
+                                for (int v = 0; v < i_v.Length; v++)
+                                {
+                                    if (v%2 == 0) Array.Copy(tab, this.Table, tab.Length);
+
+                                    if (i_v[v] == true) n = k;
+                                    if (i_v[v] == false) n = -k;
+                                    if (i_v[v] == null) n = 0;
+
+                                    if (j_v[v] == true) m = k;
+                                    if (j_v[v] == false) m = -k;
+                                    if (j_v[v] == null) m = 0;
+
+                                    if ((i+n) > 0 && (i + n) < Heigth && (j + n) > 0 && (j + n) < Width && tab[i+n,j+m] == who)
+                                    {
+                                        counter++;
+                                        tab[i + n, j + m] = 0;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return counter;
+            }
+
+
+
+
+
+            return (double)(H(2));
         }
         
         static public void Init(int width, int heigth, int deep)
@@ -92,7 +139,7 @@ namespace Laboratory2
         {
             table = new int[Heigth, Width];
             Array.Copy(tab, this.table, tab.Length);
-
+            
             // ustawienie stringa identyfikujacego stan.
             //id builder
             for (int i = 0; i < width; i++)
@@ -293,6 +340,7 @@ namespace Laboratory2
 
         public static bool isWin(int who, int[,]tab)
         {
+            int counter = 0;
             int counterX, counterY, counterB, counterF;
             for (int i = 0; i < Heigth; i++)
             {
@@ -302,33 +350,45 @@ namespace Laboratory2
                     {
                         counterX = 0; counterY = 0; counterB = 0; counterF = 0;
 
-                        for (int k = 0; k <= 3; k++){
-                            if (j+k >= 0 && j+k < Width){
-                               counterX = tab[i, j + k] == who ? counterX + 1 : counterX;
-                            }
+                        for (int k = 1; k <= 3; k++){
+                            
+                            if (j+k >= 0 && j+k < Width && tab[i, j + k] == who)
+                                 counterX++;
+
+                            if (i + k >= 0 && i + k < Heigth && tab[i + k, j] == who)
+                                counterY++;
+
+                            if (i + k >= 0 && i + k < Heigth && j + k >= 0 && j + k < Width && tab[i + k, j + k] == who)
+                                counterB++;
+
+                            if (i + k >= 0 && i + k < Heigth && j - k >= 0 && j - k < Width && tab[i + k, j - k] == who)
+                                counterF++;
                         }
 
-                        for (int k = 0; k <= 3; k++){
-                            if (i + k >= 0 && i + k < Heigth){
-                                counterY = tab[i + k, j] == who ? counterY + 1 : counterY;
-                            }
-                        }
-
-                        for (int k = 0; k <= 3; k++){
-                            if (i + k >= 0 && i + k < Heigth && j + k >= 0 && j + k < Width){
-                                counterB = tab[i + k, j + k] == who ? counterB + 1 : counterB;
-                            }
-                        }
-
-                        for (int k = 0; k <= 3; k++){
-                            if (i + k >= 0 && i + k < Heigth && j - k >= 0 && j - k < Width){
-                                counterF = tab[i + k, j - k] == who ? counterF + 1 : counterF;
-                            }
-                        }
-
-                        if (counterX > 3 || counterY > 3 || counterB > 3 || counterF > 3){
+                        if (counterX > 2 || counterY > 2 || counterB > 2 || counterF > 2){
                             return true;
                         }
+
+                        counter += counterX > 1 ? counterX : 0;
+                        counter += counterY > 1 ? counterY : 0;
+                        counter += counterF > 1 ? counterF : 0;
+                        counter += counterB > 1 ? counterB : 0;
+
+                        //counterX = 0; counterY = 0; counterB = 0; counterF = 0;
+                        //int k = 1;
+
+                        //if (j + k >= 0 && j + k < Width && tab[i, j + k] == who)
+                        //    counterX++;
+
+                        //if (i + k >= 0 && i + k < Heigth && tab[i + k, j] == who)
+                        //    counterY++;
+
+                        //if (i + k >= 0 && i + k < Heigth && j + k >= 0 && j + k < Width && tab[i + k, j + k] == who)
+                        //    counterB++;
+
+                        //if (i + k >= 0 && i + k < Heigth && j - k >= 0 && j - k < Width && tab[i + k, j - k] == who)
+                        //    counterF++;
+
                     }
                 }
             }
