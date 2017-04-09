@@ -68,36 +68,44 @@ namespace Laboratory2
                 int n = 0;
                 int m = 0;
 
-                for (int i = 0; i < Heigth; i++)
+                for (int v = 0; v < i_v.Length; v++)
                 {
-                    for (int j = 0; j < Width; j++)
+                    if (v % 2 == 0) Array.Copy(tab, this.Table, tab.Length);
+
+                    for (int i = 0; i < Heigth; i++)
                     {
-                        if (tab[i,j] == who)
+                        for (int j = 0; j < Width; j++)
                         {
-                            for (int v = 0; v < i_v.Length; v++)
+                            if (tab[i,j] == who)
                             {
-                                for  (int k = 1; k < 3; k++)
+                                for (int k = 1; k < 4; k++)
                                 {
-                                    if (v%2 == 0) Array.Copy(tab, this.Table, tab.Length);
+                                        
 
-                                    if (i_v[v] == true) n = k;
-                                    if (i_v[v] == false) n = -k;
-                                    if (i_v[v] == null) n = 0;
+                                        if (i_v[v] == true) n = k;
+                                        if (i_v[v] == false) n = -k;
+                                        if (i_v[v] == null) n = 0;
 
-                                    if (j_v[v] == true) m = k;
-                                    if (j_v[v] == false) m = -k;
-                                    if (j_v[v] == null) m = 0;
+                                        if (j_v[v] == true) m = k;
+                                        if (j_v[v] == false) m = -k;
+                                        if (j_v[v] == null) m = 0;
 
-                                    if ((i+n) > 0 && (i + n) < Heigth && (j + n) > 0 && (j + n) < Width && tab[i+n,j+m] == who)
+                                        if ((i + n) > 0 && (i + n) < Heigth && (j + m) > 0 && (j + m) < Width && tab[i + n, j + m] == who)
+                                        {
+                                            counter++;
+                                            tab[i + n, j + m] = 0;
+                                        }
+                                    else
                                     {
-                                        counter++;
-                                        tab[i + n, j + m] = 0;
+                                        break;
                                     }
+                                    } 
                                 }
+
+                            tab[i, j] = 1;
                             }
                         }
                     }
-                }
 
                 return counter;
             }
