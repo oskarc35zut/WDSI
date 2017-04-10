@@ -11,7 +11,7 @@ namespace Laboratory2 {
             Console.CursorVisible = false;
             Console.Write(" Connect4");
 
-            int width = 7;
+            int width = 12;
             int heigth = 5;
             int deep = 5;
             Connect4State.Init(width, heigth, deep);
@@ -37,14 +37,15 @@ namespace Laboratory2 {
             int who = 2;
             while (true)
             {
-                table = Connect4State.Move(table, Connect4State.GetChoise(table, who % 2 == 0 ? 1 : 2), who % 2 == 0 ? 1 : 2);
+                table = Connect4State.ComputerChoiceTable(table, who % 2 == 0 ? 1 : 2);
+                 table = Connect4State.Move(table, Connect4State.GetChoise(table, who % 2 == 0 ? 1 : 2), who % 2 == 0 ? 1 : 2);
                 if (Connect4State.isWin(who % 2 == 0 ? 1 : 2, table)) break;
-                who++;
+                //who++;
 
                 Thread.Sleep(200);
-                table = Connect4State.Move(table, Connect4State.GetChoise(table, who % 2 == 0 ? 1 : 2), who % 2 == 0 ? 1 : 2);
+                //table = Connect4State.Move(table, Connect4State.GetChoise(table, who % 2 == 0 ? 1 : 2), who % 2 == 0 ? 1 : 2);
                 
-                //table = Connect4State.ComputerChoiceTable(table, who % 2 == 0 ? 1 : 2);
+                table = Connect4State.ComputerChoiceTable(table, who % 2 == 0 ? 1 : 2);
                 if (Connect4State.isWin(who % 2 == 0 ? 1 : 2, table)) break;
                 who++;
                 Thread.Sleep(300);

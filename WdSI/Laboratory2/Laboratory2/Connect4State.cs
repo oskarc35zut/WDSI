@@ -55,66 +55,128 @@ namespace Laboratory2
 
         public override double ComputeHeuristicGrade()
         {
-            Double H(int who)
+            double H(int who, int[,]tabH)
             {
-                int [,]tab = new int[Heigth, Width];
-                Array.Copy(tab, this.Table, tab.Length);
-            
-                bool?[] i_v = new bool?[] { true, false, null, null, true, true, false, false };
-                bool?[] j_v = new bool?[] { null, null, true, false, true, false, true, false };
-
-                int counter = 0;
-
-                int n = 0;
-                int m = 0;
-
-                for (int v = 0; v < i_v.Length; v++)
+                bool isOnce(int h, int w)
                 {
-                    if (v % 2 == 0) Array.Copy(tab, this.Table, tab.Length);
+                    int[,] tmp_tab = new int[Heigth, Width];
+                    Array.Copy(tabH, tmp_tab, tmp_tab.Length);
+
+                    bool?[] hV = new bool?[] { false, false, false, null, null, true, true, true };
+                    bool?[] wV = new bool?[] { false, null, true, false, true, false, null, true };
+
+                    int n = 0, m = 0;
+                    
+                    for (int i = 0; i < hV.Length; i++)
+                    {
+                        if (hV[i] ==  true)  n =  1;
+                        if (hV[i] ==  null)  n =  0;
+                        if (hV[i] == false)  n = -1;
+
+                        if (wV[i] ==  true)  m =  1;
+                        if (wV[i] ==  null)  m =  0;
+                        if (wV[i] == false)  m = -1;
+
+                        if ((h+n >= 0 && h+n < Heigth && w+m >= 0 && w+m <Width) && tmp_tab[h+n,w+m] == who)
+                        {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+
+                //licznik calkowity
+                double counter = 0;
+
+                int[,] tmp_tabH = new int[Heigth, Width];
+                Array.Copy(tabH, tmp_tabH, tmp_tabH.Length);
+
+                for (int i = 0; i < Heigth; i++)
+                {
+                    for (int j = 0; j < Width; j++)
+                    {
+                        if (tmp_tabH[i, j] == who)
+                        {
+                            if (isOnce(i, j))
+                            {
+                                counter++;
+                                tmp_tabH[i, j] = 0;
+                            }
+                        }
+                    }
+                }
+
+
+                int[,] tmp2_tabH = new int[Heigth, Width];
+                Array.Copy(tmp_tabH, tmp2_tabH, tmp2_tabH.Length);
+
+                bool?[] HV = new bool?[] { null, true, true, true  };
+                bool?[] WV = new bool?[] { true, null, true, false };
+
+                int k = 0, l = 0;
+                int licz;
+
+                for (int v = 0; v < HV.Length; v++)
+                {
+                    Array.Copy(tmp_tabH, tmp2_tabH, tmp2_tabH.Length);
 
                     for (int i = 0; i < Heigth; i++)
                     {
                         for (int j = 0; j < Width; j++)
                         {
-                            if (tab[i,j] == who)
+                            if (tmp2_tabH[i,j] == who)
                             {
-                                for (int k = 1; k < 4; k++)
+                                licz = 0;
+                                for (int p = 1; p < 4; p++)
                                 {
-                                        
+                                    if (HV[v] == true) k = p;
+                                    if (HV[v] == null) k = 0;
+                                    if (HV[v] == false) k = p * (-1);
 
-                                        if (i_v[v] == true) n = k;
-                                        if (i_v[v] == false) n = -k;
-                                        if (i_v[v] == null) n = 0;
+                                    if (WV[v] == true) l = p;
+                                    if (WV[v] == null) l = 0;
+                                    if (WV[v] == false) l = p * (-1);
 
-                                        if (j_v[v] == true) m = k;
-                                        if (j_v[v] == false) m = -k;
-                                        if (j_v[v] == null) m = 0;
-
-                                        if ((i + n) > 0 && (i + n) < Heigth && (j + m) > 0 && (j + m) < Width && tab[i + n, j + m] == who)
-                                        {
-                                            counter++;
-                                            tab[i + n, j + m] = 0;
-                                        }
+                                    if ((i + k >= 0 && i + k < Heigth && j + l >= 0 && j + l < Width) && tmp2_tabH[i + k, j + l] == who)
+                                    {
+                                        licz++;
+                                        tmp2_tabH[i + k, j + l] = 3;
+                                    }
                                     else
                                     {
                                         break;
                                     }
-                                    } 
                                 }
 
-                            tab[i, j] = 1;
+                                if (licz == 3)
+                                {
+                                    return Infinity;
+                                }
+                                counter += Math.Pow(licz * 2, 2);
+
                             }
                         }
                     }
 
+                    
+                }
+
+
                 return counter;
             }
 
+            //nie mam pojecia co tu robie
+            if (H(2, Table) == Infinity)
+            {
+                return Infinity;
+            }
 
+            if (H(1, Table) == Infinity)
+            {
+                return NInfinity;
+            }
 
-
-
-            return H(2);
+            return H(2, Table) - H(1, Table);
         }
         
         static public void Init(int width, int heigth, int deep)
@@ -134,9 +196,9 @@ namespace Laboratory2
             // ustawienie stringa identyfikujacego stan.
             //id builder
             
-            for (int i = 0; i < heigth; i++)
+            for (int i = 0; i < Heigth; i++)
             {
-                for (int j = 0; j < width; j++)
+                for (int j = 0; j < Width; j++)
                 {
                     id += "" + Table[i, j];
                 }
@@ -150,9 +212,9 @@ namespace Laboratory2
             
             // ustawienie stringa identyfikujacego stan.
             //id builder
-            for (int i = 0; i < width; i++)
+            for (int i = 0; i < Heigth; i++)
             {
-                for (int j = 0; j < heigth; j++)
+                for (int j = 0; j < Width; j++)
                 {
                     id += "" + Table[i, j];
                 }
@@ -221,6 +283,17 @@ namespace Laboratory2
                             break;
                         case 2:
                             Console.BackgroundColor = ConsoleColor.DarkRed;
+                            Console.Write(" ");
+                            Console.BackgroundColor = ConsoleColor.Black;
+                            break;
+                        case 3:
+                            Console.BackgroundColor = ConsoleColor.Magenta;
+                            Console.Write(" ");
+                            Console.BackgroundColor = ConsoleColor.Black;
+                            break;
+
+                        case 4:
+                            Console.BackgroundColor = ConsoleColor.Yellow;
                             Console.Write(" ");
                             Console.BackgroundColor = ConsoleColor.Black;
                             break;
@@ -333,7 +406,7 @@ namespace Laboratory2
             Print(tab);
             PlayerColorBar(who);
 
-            bool isMaximizingPlayerFirst = who%2 != 0 ? true : false;//chuj wi czy to dobra kolejnosc
+            bool isMaximizingPlayerFirst = true;
 
 
             Connect4State startState = new Connect4State(tab);
@@ -348,7 +421,6 @@ namespace Laboratory2
 
         public static bool isWin(int who, int[,]tab)
         {
-            int counter = 0;
             int counterX, counterY, counterB, counterF;
             for (int i = 0; i < Heigth; i++)
             {
@@ -374,32 +446,17 @@ namespace Laboratory2
                         }
 
                         if (counterX > 2 || counterY > 2 || counterB > 2 || counterF > 2){
-                            return true;
+                            //return true;
                         }
 
-                        counter += counterX > 1 ? counterX : 0;
-                        counter += counterY > 1 ? counterY : 0;
-                        counter += counterF > 1 ? counterF : 0;
-                        counter += counterB > 1 ? counterB : 0;
 
-                        //counterX = 0; counterY = 0; counterB = 0; counterF = 0;
-                        //int k = 1;
-
-                        //if (j + k >= 0 && j + k < Width && tab[i, j + k] == who)
-                        //    counterX++;
-
-                        //if (i + k >= 0 && i + k < Heigth && tab[i + k, j] == who)
-                        //    counterY++;
-
-                        //if (i + k >= 0 && i + k < Heigth && j + k >= 0 && j + k < Width && tab[i + k, j + k] == who)
-                        //    counterB++;
-
-                        //if (i + k >= 0 && i + k < Heigth && j - k >= 0 && j - k < Width && tab[i + k, j - k] == who)
-                        //    counterF++;
 
                     }
                 }
             }
+            
+
+
             return false;
         }
 

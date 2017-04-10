@@ -23,27 +23,47 @@ namespace Laboratory2
 
             //kogo dzieci szukamy
             int who = 2;
-
             int[,] Move;
-            for (int i = 0; i < Heigth; i++)
+
+
+            for (int i = 0; i < Width; i++)
             {
-                for (int j = 0; j < Width; j++)
+                for (int j = Heigth-1; j >= 0; j--)
                 {
-                    for (int choise = -1; choise <= 1; choise++)
+                    if (tab[j,i] == 0)
                     {
-                        Move = Connect4State.Move(tab, j + choise, who);
-                        if (tab[i, j] == who && Move != tab)
-                        {
-                            Connect4State child = new Connect4State(state, Move);
-                            parent.Children.Add(child);
-                        }
+                        Move = Connect4State.Move(tab, i, who);
+                        Connect4State child = new Connect4State(state, Move);
+                        parent.Children.Add(child);
+                        
+                        break;
                     }
                 }
             }
-          
-                     
-           
-        }
 
+
+            Console.Read();
+
+
+            //for (int i = 0; i < Heigth; i++)
+            //{
+            //    for (int j = 0; j < Width; j++)
+            //    {
+            //        for (int choise = -1; choise <= 1; choise++)
+            //        {
+            //            Move = Connect4State.Move(tab, j + choise, who);
+            //            if (tab[i, j] == who && Move != tab)
+            //            {
+            //                Connect4State child = new Connect4State(state, Move);
+            //                parent.Children.Add(child);
+            //            }
+            //        }
+            //    }
+            //}
+
+
+
+        }
+        
     }
 }
