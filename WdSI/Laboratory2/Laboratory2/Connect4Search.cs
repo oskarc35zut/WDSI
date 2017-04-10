@@ -17,25 +17,28 @@ namespace Laboratory2
         {
             Connect4State state = (Connect4State)parent;
 
-            int[,] tab = state.Table;
+            //int[,] tab = state.Table;
             int Heigth = Connect4State.Heigth;
             int Width = Connect4State.Width;
 
             //kogo dzieci szukamy
             int who = 2;
-            int[,] Move;
+            int[,] Move = new int[Heigth,Width];
+            int[,] array_tmp = new int[Heigth, Width];
+            Array.Copy(state.Table, array_tmp, array_tmp.Length);
 
 
             for (int i = 0; i < Width; i++)
             {
+                Array.Copy(state.Table, array_tmp, array_tmp.Length);
                 for (int j = Heigth-1; j >= 0; j--)
                 {
-                    if (tab[j,i] == 0)
+                    if (array_tmp[j,i] == 0)
                     {
-                        Move = Connect4State.Move(tab, i, who);
+                        
+                        Move = Connect4State.Move(array_tmp, i, who);
                         Connect4State child = new Connect4State(state, Move);
                         parent.Children.Add(child);
-                        
                         break;
                     }
                 }

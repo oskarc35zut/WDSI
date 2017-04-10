@@ -408,6 +408,7 @@ namespace Laboratory2
 
             bool isMaximizingPlayerFirst = true;
 
+            
 
             Connect4State startState = new Connect4State(tab);
             Connect4Search searcher = new Connect4Search(startState, isMaximizingPlayerFirst, Howdeep);
