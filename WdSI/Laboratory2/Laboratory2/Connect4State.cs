@@ -327,7 +327,7 @@ namespace Laboratory2
             Print(tab);
             PlayerColorBar(who);
 
-            bool isMaximizingPlayerFirst = false;
+            bool isMaximizingPlayerFirst = true;
 
 
 
@@ -336,8 +336,17 @@ namespace Laboratory2
 
             searcher.DoSearch();
 
-            double maxH = Connect4State.NInfinity;
+            double maxH = 0;
             string maxH_id = "";
+
+            foreach (var stan in searcher.MovesMiniMaxes)
+            {
+                maxH = stan.Value;
+                 maxH_id = stan.Key;
+                break;
+            }
+
+            
             foreach (var stan in searcher.MovesMiniMaxes)
             {
                 if (stan.Value > maxH)
@@ -349,6 +358,19 @@ namespace Laboratory2
 
             int[,] callback = new int[Heigth,Width];
             int counter = 0;
+
+            if (maxH_id.Length == 0)
+            {
+                for (int i = 0; i < width; i++)
+                {
+                    Array.Copy(tab, callback, callback.Length);
+                    callback = Move(callback, i, 2);
+                    if (tab != callback)
+                    {
+                        return callback;
+                    }
+                }
+            }
 
             for (int i = 0; i < Heigth; i++)
             {
