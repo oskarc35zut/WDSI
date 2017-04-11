@@ -29,12 +29,20 @@ namespace Laboratory2
         {
             get { return Connect4State.heigth; }
         }
+        
 
         private static int howdeep;
 
         public static int Howdeep
         {
             get { return Connect4State.howdeep; }
+        }
+
+        private int kto;
+
+        public int Kto
+        {
+            get { return this.kto; }
         }
 
         int[,] table;
@@ -190,12 +198,15 @@ namespace Laboratory2
         //konstruktor inicjujący
         public Connect4State(int[,] tab) : base() 
         {
+            this.kto = 2;
             table = new int[Heigth, Width];
             Array.Copy(tab, this.table, tab.Length);
 
+            h = ComputeHeuristicGrade();
+
             // ustawienie stringa identyfikujacego stan.
             //id builder
-            
+
             for (int i = 0; i < Heigth; i++)
             {
                 for (int j = 0; j < Width; j++)
@@ -205,11 +216,14 @@ namespace Laboratory2
             }
         }
 
-        public Connect4State(Connect4State parent, int[,] tab) : base(parent)
+        public Connect4State(Connect4State parent, int[,] tab, int KTO) : base(parent)
         {
+            this.kto = KTO;
             table = new int[Heigth, Width];
             Array.Copy(tab, this.table, tab.Length);
-            
+
+            h = ComputeHeuristicGrade();
+
             // ustawienie stringa identyfikujacego stan.
             //id builder
             for (int i = 0; i < Heigth; i++)
@@ -232,80 +246,7 @@ namespace Laboratory2
                 this.rootMove = parent.rootMove;
             }
         }
-
-        public static void Print(int[,]tab)
-        {
-            
-
-
-            for (int i = 0; i < Heigth+2; i++)
-            {
-                Console.SetCursorPosition(startmiddle-1, i);
-                for (int j = 0; j < Width+2; j++)
-                {
-                    Console.BackgroundColor = ConsoleColor.White;
-                    //Console.Write(" ");
-                    Console.BackgroundColor = ConsoleColor.Black;
-                }
-                Console.Write("\n");
-            }
-
-
-            int isDark = 0;
-            for (int i = 0; i < Heigth; i++)
-            {
-                Console.SetCursorPosition(startmiddle, i+1);
-
-
-
-                for (int j = 0; j < Width; j++)
-                {
-                    if (j == 0 && Width % 2 == 0) isDark++;
-                    switch (tab[i,j])
-                    {
-                        case 0:
-                            if(isDark%2 == 0)
-                            {
-                                Console.BackgroundColor = ConsoleColor.Gray;
-                            }
-                            else
-                            {
-                                Console.BackgroundColor = ConsoleColor.DarkGray;
-                            }
-                            
-                            Console.Write(" ");
-                            Console.BackgroundColor = ConsoleColor.Black;
-                            break;
-                        case 1:
-                            Console.BackgroundColor = ConsoleColor.DarkBlue;
-                            Console.Write(" ");
-                            Console.BackgroundColor = ConsoleColor.Black;
-                            break;
-                        case 2:
-                            Console.BackgroundColor = ConsoleColor.DarkRed;
-                            Console.Write(" ");
-                            Console.BackgroundColor = ConsoleColor.Black;
-                            break;
-                        case 3:
-                            Console.BackgroundColor = ConsoleColor.Magenta;
-                            Console.Write(" ");
-                            Console.BackgroundColor = ConsoleColor.Black;
-                            break;
-
-                        case 4:
-                            Console.BackgroundColor = ConsoleColor.Yellow;
-                            Console.Write(" ");
-                            Console.BackgroundColor = ConsoleColor.Black;
-                            break;
-                        default:
-                            break;
-                    }
-                isDark++;
-                }
-                Console.Write("\n");
-            }
-        }
-
+        
         public static int GetChoise(int[,]tab, int who)
         {
             Print(tab);
@@ -381,6 +322,46 @@ namespace Laboratory2
             return choice;
         }
 
+        public static int[,] ComputerChoiceTable(int[,] tab, int who)
+        {
+            Print(tab);
+            PlayerColorBar(who);
+
+            bool isMaximizingPlayerFirst = false;
+
+
+
+            Connect4State startState = new Connect4State(tab);
+            Connect4Search searcher = new Connect4Search(startState, isMaximizingPlayerFirst, Howdeep);
+
+            searcher.DoSearch();
+
+            double maxH = Connect4State.NInfinity;
+            string maxH_id = "";
+            foreach (var stan in searcher.MovesMiniMaxes)
+            {
+                if (stan.Value > maxH)
+                {
+                    maxH = stan.Value;
+                    maxH_id = stan.Key;
+                }
+            }
+
+            int[,] callback = new int[Heigth,Width];
+            int counter = 0;
+
+            for (int i = 0; i < Heigth; i++)
+            {
+                for (int j = 0; j < Width; j++)
+                {
+                    callback[i, j] = maxH_id[counter++]-48;
+
+                }
+            }
+
+            return callback;
+        }
+
         public static void PlayerColorBar(int who)
         {
             //kolor antywnego gracza
@@ -400,26 +381,7 @@ namespace Laboratory2
                 Console.BackgroundColor = ConsoleColor.Black;
             }
         }
-
-        public static int[,] ComputerChoiceTable(int[,] tab, int who)
-        {
-            Print(tab);
-            PlayerColorBar(who);
-
-            bool isMaximizingPlayerFirst = true;
-
-            
-
-            Connect4State startState = new Connect4State(tab);
-            Connect4Search searcher = new Connect4Search(startState, isMaximizingPlayerFirst, Howdeep);
-
-            searcher.DoSearch();
-
-            
-
-             return tab;
-        }
-
+   
         public static bool isWin(int who, int[,]tab)
         {
             int counterX, counterY, counterB, counterF;
@@ -447,7 +409,7 @@ namespace Laboratory2
                         }
 
                         if (counterX > 2 || counterY > 2 || counterB > 2 || counterF > 2){
-                            //return true;
+                            return true;
                         }
 
 
@@ -475,7 +437,82 @@ namespace Laboratory2
                 }
             }
 
+            
+
             return tab;
+        }
+
+        public static void Print(int[,] tab)
+        {
+
+
+
+            for (int i = 0; i < Heigth + 2; i++)
+            {
+                Console.SetCursorPosition(startmiddle - 1, i);
+                for (int j = 0; j < Width + 2; j++)
+                {
+                    Console.BackgroundColor = ConsoleColor.White;
+                    //Console.Write(" ");
+                    Console.BackgroundColor = ConsoleColor.Black;
+                }
+                Console.Write("\n");
+            }
+
+
+            int isDark = 0;
+            for (int i = 0; i < Heigth; i++)
+            {
+                Console.SetCursorPosition(startmiddle, i + 1);
+
+
+
+                for (int j = 0; j < Width; j++)
+                {
+                    if (j == 0 && Width % 2 == 0) isDark++;
+                    switch (tab[i, j])
+                    {
+                        case 0:
+                            if (isDark % 2 == 0)
+                            {
+                                Console.BackgroundColor = ConsoleColor.Gray;
+                            }
+                            else
+                            {
+                                Console.BackgroundColor = ConsoleColor.DarkGray;
+                            }
+
+                            Console.Write(" ");
+                            Console.BackgroundColor = ConsoleColor.Black;
+                            break;
+                        case 1:
+                            Console.BackgroundColor = ConsoleColor.DarkBlue;
+                            Console.Write(" ");
+                            Console.BackgroundColor = ConsoleColor.Black;
+                            break;
+                        case 2:
+                            Console.BackgroundColor = ConsoleColor.DarkRed;
+                            Console.Write(" ");
+                            Console.BackgroundColor = ConsoleColor.Black;
+                            break;
+                        case 3:
+                            Console.BackgroundColor = ConsoleColor.Magenta;
+                            Console.Write(" ");
+                            Console.BackgroundColor = ConsoleColor.Black;
+                            break;
+
+                        case 4:
+                            Console.BackgroundColor = ConsoleColor.Yellow;
+                            Console.Write(" ");
+                            Console.BackgroundColor = ConsoleColor.Black;
+                            break;
+                        default:
+                            break;
+                    }
+                    isDark++;
+                }
+                Console.Write("\n");
+            }
         }
     }
 }

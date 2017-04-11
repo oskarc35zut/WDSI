@@ -11,9 +11,9 @@ namespace Laboratory2 {
             Console.CursorVisible = false;
             Console.Write(" Connect4");
 
-            int width = 12;
-            int heigth = 1;
-            int deep = 5;
+            int width = 7;
+            int heigth = 4;
+            int deep = 3;
             Connect4State.Init(width, heigth, deep);
 
             //Connect4State parrent = new Connect4State();
@@ -33,20 +33,20 @@ namespace Laboratory2 {
                     table[i, j] = 0;
                 }
             }
-
+            
             int who = 2;
             while (true)
             {
-                table = Connect4State.ComputerChoiceTable(table, who % 2 == 0 ? 1 : 2);
-                //table = Connect4State.Move(table, Connect4State.GetChoise(table, who % 2 == 0 ? 1 : 2), who % 2 == 0 ? 1 : 2);
-                if (Connect4State.isWin(who % 2 == 0 ? 1 : 2, table)) break;
-                //who++;
+                //table = Connect4State.ComputerChoiceTable(table, who % 2 == 0 ? 1 : 2);
+                table = Connect4State.Move(table, Connect4State.GetChoise(table, who % 2 == 0 ? 1 : 2), who % 2 == 0 ? 1 : 2);
+                //if (Connect4State.isWin(who % 2 == 0 ? 1 : 2, table)) break;
+                who++;
 
                 Thread.Sleep(200);
                 //table = Connect4State.Move(table, Connect4State.GetChoise(table, who % 2 == 0 ? 1 : 2), who % 2 == 0 ? 1 : 2);
                 
                 table = Connect4State.ComputerChoiceTable(table, who % 2 == 0 ? 1 : 2);
-                if (Connect4State.isWin(who % 2 == 0 ? 1 : 2, table)) break;
+                //if (Connect4State.isWin(who % 2 == 0 ? 1 : 2, table)) break;
                 who++;
                 Thread.Sleep(300);
             }

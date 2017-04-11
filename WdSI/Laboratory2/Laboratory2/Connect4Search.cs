@@ -22,12 +22,26 @@ namespace Laboratory2
             int Width = Connect4State.Width;
 
             //kogo dzieci szukamy
-            int who = 2;
+            int who = state.Kto;
+
             int[,] Move = new int[Heigth,Width];
             int[,] array_tmp = new int[Heigth, Width];
             Array.Copy(state.Table, array_tmp, array_tmp.Length);
 
-            Array.Copy(state.Table, array_tmp, array_tmp.Length);
+            int kto_tmp = state.Kto;
+
+            if (state.Kto == 1)
+            {
+                kto_tmp = 2;
+            }
+            else
+            {
+                if (state.Kto == 2)
+                {
+                    kto_tmp = 1;
+                }
+            }
+
             for (int i = 0; i < Width; i++)
             {
                 Array.Copy(state.Table, array_tmp, array_tmp.Length);
@@ -35,34 +49,16 @@ namespace Laboratory2
                 {
                     if (array_tmp[j,i] == 0)
                     {
-                        
                         Move = Connect4State.Move(array_tmp, i, who);
-                        Connect4State child = new Connect4State(state, Move);
+                        Connect4State child = new Connect4State(state, Move, kto_tmp);
                         break;
                     }
                 }
                 
             }
 
-
-            Console.Read();
-
-
-            //for (int i = 0; i < Heigth; i++)
-            //{
-            //    for (int j = 0; j < Width; j++)
-            //    {
-            //        for (int choise = -1; choise <= 1; choise++)
-            //        {
-            //            Move = Connect4State.Move(tab, j + choise, who);
-            //            if (tab[i, j] == who && Move != tab)
-            //            {
-            //                Connect4State child = new Connect4State(state, Move);
-            //                parent.Children.Add(child);
-            //            }
-            //        }
-            //    }
-            //}
+            
+            Console.Write("");
 
 
 
