@@ -27,7 +27,7 @@ namespace Laboratory2
             int[,] array_tmp = new int[Heigth, Width];
             Array.Copy(state.Table, array_tmp, array_tmp.Length);
 
-
+            Array.Copy(state.Table, array_tmp, array_tmp.Length);
             for (int i = 0; i < Width; i++)
             {
                 Array.Copy(state.Table, array_tmp, array_tmp.Length);
@@ -38,10 +38,10 @@ namespace Laboratory2
                         
                         Move = Connect4State.Move(array_tmp, i, who);
                         Connect4State child = new Connect4State(state, Move);
-                        parent.Children.Add(child);
                         break;
                     }
                 }
+                
             }
 
 

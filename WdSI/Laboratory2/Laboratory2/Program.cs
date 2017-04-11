@@ -12,7 +12,7 @@ namespace Laboratory2 {
             Console.Write(" Connect4");
 
             int width = 12;
-            int heigth = 5;
+            int heigth = 1;
             int deep = 5;
             Connect4State.Init(width, heigth, deep);
 
