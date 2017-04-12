@@ -261,7 +261,9 @@ namespace Laboratory2
                 this.rootMove = parent.rootMove;
             }
         }
-        
+
+        #region statyczne funkcjonalnosci
+
         /// <summary>
         /// Zwraca wybór gracza, gdzie chce "zrzucić" kolejny element
         /// (od 0 do Szerokość)
@@ -591,5 +593,7 @@ namespace Laboratory2
 
             return true;
         }
+
+        #endregion //statyczne funkcjonalnosci
     }
 }

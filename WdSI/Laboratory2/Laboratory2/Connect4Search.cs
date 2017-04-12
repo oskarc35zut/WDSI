@@ -16,8 +16,7 @@ namespace Laboratory2
         protected override void buildChildren(IState parent)
         {
             Connect4State state = (Connect4State)parent;
-
-            //int[,] tab = state.Table;
+            
             int Heigth = Connect4State.Heigth;
             int Width = Connect4State.Width;
 

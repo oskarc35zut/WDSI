@@ -9,6 +9,11 @@ using System.Diagnostics;
 namespace Laboratory2 {
     class Program {
         static void Main(string[] args) {
+
+            #region init
+
+            
+
             Console.SetWindowPosition(0, 0);
             Console.Write(" Connect4");
 
@@ -45,6 +50,10 @@ namespace Laboratory2 {
                     table[i, j] = 0;
                 }
             }
+            #endregion //Init
+
+            #region Gra
+
             
             while (true)
             {
@@ -72,6 +81,10 @@ namespace Laboratory2 {
                 who++;
             }
 
+            #endregion //Gra
+
+            #region Wynik rozgrywki
+            
             Connect4State.Print(table);
             if (!Connect4State.isFull(table))
             { 
@@ -90,6 +103,7 @@ namespace Laboratory2 {
                 Console.WriteLine("\n\n\n\n\n\nRemis!");
             }
             Thread.Sleep(5000);
+            #endregion //Wynik rozgrywki
         }
     }
 }
