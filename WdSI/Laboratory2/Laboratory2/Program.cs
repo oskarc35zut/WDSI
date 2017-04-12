@@ -10,7 +10,6 @@ namespace Laboratory2 {
     class Program {
         static void Main(string[] args) {
             Console.SetWindowPosition(0, 0);
-            Console.CursorVisible = false;
             Console.Write(" Connect4");
 
             int who = 2;
@@ -30,6 +29,7 @@ namespace Laboratory2 {
             Console.Clear();
             Console.SetWindowPosition(0, 0);
             Console.Write(" Connect4");
+            Console.CursorVisible = false;
 
 
 
@@ -89,7 +89,7 @@ namespace Laboratory2 {
                 Console.WriteLine("\n\n\n\n\n\nPrzegrana...");
             }
 
-            Console.Read();
+            Thread.Sleep(5000);
         }
     }
 }
