@@ -172,8 +172,7 @@ namespace Laboratory2
 
                 return counter;
             }
-
-            //nie mam pojecia co tu robie
+            
             if (H(2, Table) == Infinity)
             {
                 return Infinity;
@@ -187,6 +186,12 @@ namespace Laboratory2
             return H(2, Table) - H(1, Table);
         }
         
+        /// <summary>
+        /// Funkcja definicji cech planszy gry oraz samej gry.
+        /// </summary>
+        /// <param name="width">Szerokosc planszy</param>
+        /// <param name="heigth">Wysokość pranszy</param>
+        /// <param name="deep">Glebokosc wyszukiwania</param>
         static public void Init(int width, int heigth, int deep)
         {
             Connect4State.width = width;
@@ -195,7 +200,10 @@ namespace Laboratory2
             startmiddle = (Console.BufferWidth / 2) - (Width / 2);
         }
 
-        //konstruktor inicjujący
+        /// <summary>
+        /// Konstruktor startowy wyszukiwania.
+        /// </summary>
+        /// <param name="tab">Tablica korzenia wyszukiwań</param>
         public Connect4State(int[,] tab) : base() 
         {
             this.kto = 2;
@@ -216,11 +224,18 @@ namespace Laboratory2
             }
         }
 
+        /// <summary>
+        /// Konstruktor tworzenia dzieci w wyszukiwaniu
+        /// </summary>
+        /// <param name="parent"> Rodzic dziecka</param>
+        /// <param name="tab"> Nowa tablica (potomna i różna od rodzica)</param>
+        /// <param name="KTO">Kogo jest to stan potomny? (1 - minimalizujacy 2 - maksymalizujacy)</param>
         public Connect4State(Connect4State parent, int[,] tab, int KTO) : base(parent)
         {
             this.kto = KTO;
             table = new int[Heigth, Width];
             Array.Copy(tab, this.table, tab.Length);
+            
 
             h = ComputeHeuristicGrade();
 
@@ -247,6 +262,13 @@ namespace Laboratory2
             }
         }
         
+        /// <summary>
+        /// Zwraca wybór gracza, gdzie chce "zrzucić" kolejny element
+        /// (od 0 do Szerokość)
+        /// </summary>
+        /// <param name="tab"></param>
+        /// <param name="who"></param>
+        /// <returns></returns>
         public static int GetChoise(int[,]tab, int who)
         {
             Print(tab);
@@ -384,6 +406,10 @@ namespace Laboratory2
             return callback;
         }
 
+        /// <summary>
+        /// Funkcja kolorująca pasek pod tabela
+        /// </summary>
+        /// <param name="who">Czyj jest ruch</param>
         public static void PlayerColorBar(int who)
         {
             //kolor antywnego gracza
@@ -404,6 +430,12 @@ namespace Laboratory2
             }
         }
    
+        /// <summary>
+        /// Funkcja odpowiada na pytanie czy podany gracz wygrał.
+        /// </summary>
+        /// <param name="who">Sprawdzany gracz</param>
+        /// <param name="tab">Tabela w której sprawdzamy czy gracz wygrał</param>
+        /// <returns></returns>
         public static bool isWin(int who, int[,]tab)
         {
             int counterX, counterY, counterB, counterF;
@@ -445,6 +477,13 @@ namespace Laboratory2
             return false;
         }
 
+        /// <summary>
+        /// Funkcja zwraca tabele z dodanym ruchem gracza.
+        /// </summary>
+        /// <param name="tab">Tabela do której ma być dodany ruch</param>
+        /// <param name="chose">Wybór grze ma byc dodany ruch.</param>
+        /// <param name="who">Kogo ruch ma byc dodany?</param>
+        /// <returns></returns>
         public static int[,] Move(int[,] tab, int chose, int who)
         {
             for (int i = Heigth-1; i >= 0; i--)

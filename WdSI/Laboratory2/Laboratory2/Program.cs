@@ -34,6 +34,9 @@ namespace Laboratory2 {
 
             int[,] table = new int[Connect4State.Heigth, Connect4State.Width];
 
+
+            
+
             //table 0 builder
             for (int i = 0; i < Connect4State.Heigth; i++)
             {
