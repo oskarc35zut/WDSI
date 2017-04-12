@@ -106,6 +106,7 @@ namespace Laboratory2 {
             }
             Thread.Sleep(5000);
             #endregion //Wynik rozgrywki
+
         }
     }
 }
