@@ -24,15 +24,22 @@ namespace Laboratory2 {
             int heigth = 4;
             int deep = 3;
 
+            Console.Write("\nWysokosc planszy: ");
+            heigth = Convert.ToInt32(Console.ReadLine());
+
+            Console.Write("\nSzerokosc planszy: ");
+            width = Convert.ToInt32(Console.ReadLine());
+
+            Console.Write("\nJak gleboko szukac: ");
+            deep = Convert.ToInt32(Console.ReadLine());
+            Connect4State.Init(width, heigth, deep);
+
             DialogResult dialogResult_sudoku = MessageBox.Show("Komputer zaczyna? ( ͡° ͜ʖ ͡°)", "", MessageBoxButtons.YesNo);
             if (dialogResult_sudoku == DialogResult.Yes)
             {
                 who++;
             }
 
-            Console.Write("\nJak gleboko szukac: ");
-            deep = Console.Read()-48;
-            Connect4State.Init(width, heigth, deep);
 
             Console.Clear();
             Console.SetWindowPosition(0, 0);
