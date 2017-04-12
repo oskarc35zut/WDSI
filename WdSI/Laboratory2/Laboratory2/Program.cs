@@ -6,6 +6,8 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Diagnostics;
 
+//C# 7.0!
+
 namespace Laboratory2 {
     class Program {
         static void Main(string[] args) {
