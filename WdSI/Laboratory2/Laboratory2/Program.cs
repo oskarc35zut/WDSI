@@ -25,23 +25,12 @@ namespace Laboratory2 {
 
             Console.Write("\nJak gleboko szukac: ");
             deep = Console.Read()-48;
+            Connect4State.Init(width, heigth, deep);
 
             Console.Clear();
             Console.SetWindowPosition(0, 0);
             Console.Write(" Connect4");
             Console.CursorVisible = false;
-
-
-
-
-            Connect4State.Init(width, heigth, deep);
-
-            //Connect4State parrent = new Connect4State();
-            //Connect4State.GetChoise(parrent.Table);
-            //Console.WriteLine("\n\n\nWybrano" + Connect4State.GetChoise(parrent.Table));
-            
-            //Console.Read();
-
 
             int[,] table = new int[Connect4State.Heigth, Connect4State.Width];
 
@@ -54,13 +43,14 @@ namespace Laboratory2 {
                 }
             }
             
-            
             while (true)
             {
                 switch (who%2)
                 {
                     case 0:
-                        table = Connect4State.Move(table, Connect4State.GetChoise(table, who % 2 == 0 ? 1 : 2), who % 2 == 0 ? 1 : 2);
+                        table = Connect4State.Move(table, Connect4State.GetChoise(table, who % 2 == 0 ? 1 : 2),
+                                                    who % 2 == 0 ? 1 : 2);
+
                         break;
 
                     case 1:
@@ -74,21 +64,28 @@ namespace Laboratory2 {
                         break;
                 }
 
-                if (Connect4State.isWin(who % 2 == 0 ? 1 : 2, table)) break;
+                if (Connect4State.isWin(who % 2 == 0 ? 1 : 2, table) || Connect4State.isFull(table)) break;
+
                 who++;
             }
 
             Connect4State.Print(table);
-            if (who%2 == 0)
-            {
-                Console.WriteLine("\n\n\n\n\n\nGratulacje, wygrales!!!");
+            if (!Connect4State.isFull(table))
+            { 
+                if (who%2 == 0)
+                {
+                    Console.WriteLine("\n\n\n\n\n\nGratulacje, wygrales!!!");
                 
+                }
+                else
+                {
+                    Console.WriteLine("\n\n\n\n\n\nPrzegrana...");
+                }
             }
             else
             {
-                Console.WriteLine("\n\n\n\n\n\nPrzegrana...");
+                Console.WriteLine("\n\n\n\n\n\nRemis!");
             }
-
             Thread.Sleep(5000);
         }
     }

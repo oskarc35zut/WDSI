@@ -536,5 +536,21 @@ namespace Laboratory2
                 Console.Write("\n");
             }
         }
+
+        public static bool isFull(int[,] tab)
+        {
+            for (int i = 0; i < Heigth; i++)
+            {
+                for (int j = 0; j < Width; j++)
+                {
+                    if (tab[i,j] == 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
     }
 }
